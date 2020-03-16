@@ -1,0 +1,32 @@
+.main-content{
+    background-color: whitesmoke;
+    width: 100%;
+}
+
+.sidenav {
+    padding: 20px;
+    height: 100%;
+}
+
+.sidenav-title{
+    font-size: 20px;
+}
+
+.sidenav-btn{
+    text-align: left;
+    font-size: 16px;
+}
+
+.icon-30{
+    width: 30px;
+    height: 30px;
+}
+
+.heart{
+    color: red;
+}
+
+:host ::ng-deep.mat-drawer-inner-container{
+    display: contents;
+}
+  
