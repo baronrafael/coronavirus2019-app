@@ -1,0 +1,20 @@
+<div *ngIf="generalInfo" class="content width-100" fxLayout="column" fxLayoutAlign="center center">
+    <p></p>
+    <div fxLayout="row wrap" fxLayoutAlign="center none">
+        <mat-card class="general-card text-center">
+            <h1 class="text-black"><strong>{{generalInfo.cases}}</strong></h1>
+            <h2>Cases</h2>
+            <img width="150" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSOaNRLMM3e72vY24qjdPRoazC04IIJEf48tgH2upVu01CbI1bO" alt="">
+        </mat-card>
+        <mat-card class="general-card text-center">
+            <h1 class="text-red"><strong>{{generalInfo.deaths}}</strong></h1>
+            <h2>Deaths</h2>
+            <img width="150" src="https://www.childrensmn.org/assets/img/crisis-icon-250x250.png" alt="">
+        </mat-card>
+        <mat-card class="general-card text-center">
+            <h1 class="text-green"><strong>{{generalInfo.recovered}}</strong></h1>
+            <h2>Recovered</h2>
+            <img width="150" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTe9u4reUHOnGG9W6EgX6SSAbCDprw53LAmC0sWwanW0rTx-hSi" alt="">
+        </mat-card>
+    </div>
+</div>
