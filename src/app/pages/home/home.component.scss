@@ -1,11 +1,19 @@
 .general-card{
     width: 25%;
     min-width: 250px;
-    margin: 20px;
+    margin: 10px;
+    flex-direction: column;
+    display: flex;
+    place-content: stretch center;
+    align-items: stretch;
 }
 
 .text-black{
     color: black;
+}
+
+.text-orange{
+    color: orangered;
 }
 
 .text-red{
@@ -15,3 +23,19 @@
 .text-green{
     color: green;
 }
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 75%;
+    border: 1px solid #ddd;
+}
+  
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+  
+tr:nth-child(even){background-color: #f2f2f2}
+
+.title{ letter-spacing: 2px !important; font-size: 18px !important; font-weight: 100 !important; }
