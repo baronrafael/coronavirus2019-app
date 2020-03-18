@@ -6,6 +6,7 @@
     display: flex;
     place-content: stretch center;
     align-items: stretch;
+    height: fit-content;
 }
 
 .text-black{
@@ -39,3 +40,7 @@ th, td {
 tr:nth-child(even){background-color: #f2f2f2}
 
 .title{ letter-spacing: 2px !important; font-size: 18px !important; font-weight: 100 !important; }
+
+.card-title{ letter-spacing: 3px !important; font-size: 20px !important; font-weight: 200 !important; }
+
+.map {width: 150px;height: 150px; }

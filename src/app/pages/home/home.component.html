@@ -1,39 +1,25 @@
 <div *ngIf="generalInfo" class="content width-100" fxLayout="column" fxLayoutAlign="center center">
-    <p></p>
     <div fxLayout="row wrap" fxLayoutAlign="center none">
-        <mat-card class="general-card text-right">
-            <h1 class="title text-black"><strong>{{generalInfo.cases}}</strong> Cases</h1>
-            <h1 class="title text-black"><strong>{{todayCases}}</strong> Today Cases</h1>
-            <h1 class="title text-orange"><strong>{{totalCriticalCases}}</strong> Total Critical Cases</h1>
+        <mat-card *ngIf="currentCountry" class="general-card text-right">
+            <h1 class="card-title text-black text-center">{{currentCountry.country}}</h1>
+            <h1 class="title text-black"><strong>{{currentCountry.cases}}</strong> Total Cases</h1>
+            <h1 class="title text-black"><strong>{{currentCountry.todayCases}}</strong> Today Cases</h1>
+            <h1 class="title text-orange"><strong>{{currentCountry.critical}}</strong> Critical Cases</h1>
+            <h1 class="title text-red"><strong>{{currentCountry.deaths}}</strong> Total Deaths</h1>
+            <h1 class="title text-red"><strong>{{currentCountry.todayDeaths}}</strong> Today Deaths</h1>
+            <h1 class="title text-green"><strong>{{currentCountry.recovered}}</strong> Total Recovered</h1>
+        </mat-card>
+        <mat-card  class="general-card text-right">
+            <h1 class="card-title text-black text-center">Cases</h1>
+            <h1 class="title text-black"><strong>{{generalInfo.cases}}</strong> Total</h1>
+            <h1 class="title text-black"><strong>{{todayCases}}</strong> Today</h1>
+            <h1 class="title text-orange"><strong>{{totalCriticalCases}}</strong> Total Critical</h1>
         </mat-card>
         <mat-card class="general-card text-right">
+            <h1 class="card-title text-black text-center">Deaths & Recovered</h1>
             <h1 class="title text-red"><strong>{{generalInfo.deaths}}</strong> Total Deaths</h1>
             <h1 class="title text-red"><strong>{{todayDeaths}}</strong> Today Deaths</h1>
             <h1 class="title text-green"><strong>{{generalInfo.recovered}}</strong> Total Recovered</h1>
         </mat-card>
-    </div>
-    <div *ngIf="false" class="width-100" style="overflow-x:auto;" fxLayout="column" fxLayoutAlign="center center">
-        <table>
-          <tr>
-            <th>Country</th>
-            <th>Total Cases</th>
-            <th>New Cases</th>
-            <th>Total Deaths</th>
-            <th>New Deaths</th>
-            <th>Total Recovered</th>
-            <th>Critical Cases</th>
-          </tr>
-          <ng-container *ngFor="let country of CountriesInfo">
-            <tr>
-                <td>{{country.country}}</td>
-                <td>{{country.cases}}</td>
-                <td>{{country.todayCases}}</td>
-                <td>{{country.deaths}}</td>
-                <td>{{country.todayDeaths}}</td>
-                <td>{{country.recovered}}</td>
-                <td>{{country.critical}}</td>
-            </tr>
-          </ng-container>
-        </table>
     </div>
 </div>
