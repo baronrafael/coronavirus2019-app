@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ApiService {
-  private readonly host = environment.novelCovidUrl;
+  private readonly host;
 
   constructor(protected http: HttpClient) {
     this.host = environment.novelCovidUrl;

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NovelcovidService } from 'src/app/core/services/novelcovid.service';
+import { LocationService } from 'src/app/core/services/location.service';
 
 @Component({
   selector: 'app-home',
@@ -10,27 +11,58 @@ export class HomeComponent implements OnInit {
 
   generalInfo: any;
   CountriesInfo: any;
+  currentCountry: any;
   totalCriticalCases: number;
   todayCases: number;
   todayDeaths: number;
 
+  isTracking = false;
+
   constructor(
+    private locationService: LocationService,
     private novelCovid: NovelcovidService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
+    this.getLocationInfo();
     this.getAllInfo();
     this.getCountriesInfo();
+  }
+
+  getLocationInfo(){
+    this.locationService.getLocationWithIP()
+    .subscribe(
+      (res: any) => {
+        //console.log(res);
+        this.getSpecificCountryInfo(res.country);
+      },
+      (err: any) => {
+        console.log(err);
+      },
+    );
+  }
+
+  findMe(){
     if (navigator.geolocation) {
-      console.log("🗺️ yep, we can proceed!");
-      navigator.geolocation.getCurrentPosition(this.displayLocationInfo);
+      console.log("🗺️ yep, we can find u! 😃");
+      navigator.geolocation.getCurrentPosition(this.showPosition);
     } else {
-      console.log("no can do");
+      console.log("Can't find u with navigator.geolocation 😞");
     }
   }
 
-  displayLocationInfo(position) {
+  showPosition(position) {
     console.log(position.coords);
+  }
+
+  trackMe() {
+    if (navigator.geolocation) {
+      console.log("🗺️ yep, we can track u! 😃");
+      this.isTracking = true;
+      navigator.geolocation.watchPosition(this.showPosition);
+    } else {
+      alert("Can't track u with navigator.geolocation 😞");
+    }
   }
 
   getAllInfo(){
@@ -66,7 +98,9 @@ export class HomeComponent implements OnInit {
     this.novelCovid.getSpecificCountryInfo(country)
     .subscribe(
       (res) => {
-        console.log(res)
+        //console.log(res)
+        this.currentCountry = res;
+        console.log(this.currentCountry);
       },
       (err) => {
         console.log(err);
