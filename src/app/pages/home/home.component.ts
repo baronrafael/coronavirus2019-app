@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
     .subscribe(
       (res: any) => {
         //console.log(res);
-        this.getSpecificCountryInfo(res.country);
+        this.getSpecificCountryInfo(res.country_name);
       },
       (err: any) => {
         console.log(err);

@@ -9,7 +9,7 @@ export class LocationService {
   constructor(private httpClient: HttpClient) { }
 
   getLocationWithIP(){
-    return this.httpClient.get('http://ip-api.com/json');
+    return this.httpClient.get('https://ipapi.co/json');
   }
   
 }
