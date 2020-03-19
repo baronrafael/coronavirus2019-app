@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from './material/material.module';
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { MapComponent } from './components/map-component/map.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [MapComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -17,7 +18,8 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     ReactiveFormsModule,
     FormsModule,
     MaterialModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MapComponent
   ]
 })
 export class SharedModule { }
