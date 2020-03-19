@@ -11,12 +11,25 @@ export class MapService {
   private mapbox = (mapboxgl as typeof mapboxgl);
   private innerMap: mapboxgl.Map;
   private style = `mapbox://styles/mapbox/streets-v11`;
-  private lat = -14.5;
-  private lng = 40;
-  private zoom = 16;
+  private lng;
+  private lat;
+  private zoom = 9;
 
   constructor(@Inject(MAP_CONTAINER_NAME) private containerName: string) {
     this.mapbox.accessToken = environment.mapBoxToken;
+  }
+
+  findMe(){
+    if (navigator.geolocation) {
+      console.log("🗺️ yep, we can find u! 😃");
+      navigator.geolocation.getCurrentPosition((position) =>{
+        this.lng = position.coords.longitude;
+        this.lat = position.coords.latitude;
+        this.buildMap();
+      });
+    } else {
+      console.log("Can't find u with navigator.geolocation 😞");
+    }
   }
 
   buildMap() {
@@ -25,11 +38,19 @@ export class MapService {
       style: this.style,
       zoom: this.zoom,
       center: [this.lng, this.lat]
+      
     });
     this.innerMap.addControl(new mapboxgl.NavigationControl());
+    let marker = new mapboxgl.Marker({
+      draggable: false
+    })
+    .setLngLat([this.lng, this.lat])
+    .addTo(this.innerMap);
   }
 
   get map() {
     return this.innerMap;
   }
+
+  
 }

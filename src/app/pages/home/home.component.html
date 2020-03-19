@@ -1,25 +1,31 @@
 <div *ngIf="generalInfo" class="content width-100" fxLayout="column" fxLayoutAlign="center center">
   <div fxLayout="row wrap" fxLayoutAlign="center none">
+    <mat-card class="general-card text-right">
+      <h1 class="card-title text-black text-center">Worldwide Info</h1>
+      <table>
+        <tr><td><strong>{{generalInfo.cases}}</strong></td><td >Cases</td></tr>
+        <!--<tr><td class="text-orange"><strong>{{totalCriticalCases}}</strong></td><td>Critical</td></tr>-->
+        <tr><td class="text-red"><strong>{{generalInfo.deaths}}</strong></td><td>Deaths</td></tr>
+        <tr><td class="text-green"><strong>{{generalInfo.recovered}}</strong></td><td>Recovered</td></tr>
+      </table>
+      <br>
+      <h1 class="card-title text-black text-center">Today Info</h1>
+      <table>
+        <tr><td><strong>{{todayCases}}</strong></td><td>Cases</td></tr>
+        <tr><td class="text-red"><strong>{{todayDeaths}}</strong></td><td>Deaths</td></tr>
+      </table>
+    </mat-card>
     <mat-card *ngIf="currentCountry" class="general-card text-right">
-      <h1 class="card-title text-black text-center">{{currentCountry.country}}</h1>
-      <h1 class="title text-black"><strong>{{currentCountry.cases}}</strong> Total Cases</h1>
-      <h1 class="title text-black"><strong>{{currentCountry.todayCases}}</strong> Today Cases</h1>
-      <h1 class="title text-orange"><strong>{{currentCountry.critical}}</strong> Critical Cases</h1>
-      <h1 class="title text-red"><strong>{{currentCountry.deaths}}</strong> Total Deaths</h1>
-      <h1 class="title text-red"><strong>{{currentCountry.todayDeaths}}</strong> Today Deaths</h1>
-      <h1 class="title text-green"><strong>{{currentCountry.recovered}}</strong> Total Recovered</h1>
-    </mat-card>
-    <mat-card class="general-card text-right">
-      <h1 class="card-title text-black text-center">Cases</h1>
-      <h1 class="title text-black"><strong>{{generalInfo.cases}}</strong> Total</h1>
-      <h1 class="title text-black"><strong>{{todayCases}}</strong> Today</h1>
-      <h1 class="title text-orange"><strong>{{totalCriticalCases}}</strong> Total Critical</h1>
-    </mat-card>
-    <mat-card class="general-card text-right">
-      <h1 class="card-title text-black text-center">Deaths & Recovered</h1>
-      <h1 class="title text-red"><strong>{{generalInfo.deaths}}</strong> Total Deaths</h1>
-      <h1 class="title text-red"><strong>{{todayDeaths}}</strong> Today Deaths</h1>
-      <h1 class="title text-green"><strong>{{generalInfo.recovered}}</strong> Total Recovered</h1>
+      <h1 class="card-title text-black text-center">Your Country</h1>
+      <h2 class="card-title text-black text-center"><strong>{{currentCountry.country}}</strong></h2>
+      <table>
+        <tr><td><strong>{{currentCountry.cases}}</strong></td><td>Total Cases</td></tr>
+        <tr><td><strong>{{currentCountry.todayCases}}</strong></td><td>Today Cases</td></tr>
+        <tr><td class="text-orange"><strong>{{currentCountry.critical}}</strong></td><td>Critical Cases</td></tr>
+        <tr><td class="text-red"><strong>{{currentCountry.deaths}}</strong></td><td>Total Deaths</td></tr>
+        <tr><td class="text-red"><strong>{{currentCountry.todayDeaths}}</strong></td><td>Today Deaths</td></tr>
+        <tr><td class="text-green"><strong>{{currentCountry.recovered}}</strong></td><td>Total Recovered</td></tr>
+      </table>
     </mat-card>
   </div>
   <app-map></app-map>

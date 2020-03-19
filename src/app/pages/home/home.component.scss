@@ -1,6 +1,7 @@
 .general-card{
     width: 25%;
-    min-width: 250px;
+    min-width: 275px;
+    min-height: 346px;
     margin: 10px;
     flex-direction: column;
     display: flex;
@@ -26,14 +27,16 @@
 }
 
 table {
+    font-size: 20px;
+    letter-spacing: 1px;
     border-collapse: collapse;
     border-spacing: 0;
-    width: 75%;
+    width: 100%;
     border: 1px solid #ddd;
 }
   
 th, td {
-    text-align: left;
+    text-align: right;
     padding: 8px;
 }
   
