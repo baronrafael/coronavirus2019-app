@@ -4,9 +4,10 @@ import { SharedModule } from '@shared/shared.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { PagesComponent } from './pages.component';
 import { HomeComponent } from './home/home.component';
+import { CountriesComponent } from './countries/countries.component';
 
 @NgModule({
-  declarations: [PagesComponent, HomeComponent],
+  declarations: [PagesComponent, HomeComponent, CountriesComponent],
   imports: [
     CommonModule,
     SharedModule,
