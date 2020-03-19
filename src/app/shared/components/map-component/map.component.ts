@@ -21,6 +21,6 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit (): void {
-    this.mapInstance.buildMap();
+    this.mapInstance.findMe();
   }
 }
