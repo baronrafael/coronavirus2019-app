@@ -1,0 +1,11 @@
+.map-container {
+  flex: 1;
+  position: relative;
+  min-width: 100vw;
+}
+
+:host {
+  display: flex;
+  min-height: 65vh;
+  max-height: 100vh;
+}
