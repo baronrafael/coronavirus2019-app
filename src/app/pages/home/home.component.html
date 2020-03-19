@@ -4,7 +4,6 @@
       <h1 class="card-title text-black text-center">Worldwide Info</h1>
       <table>
         <tr><td><strong>{{generalInfo.cases}}</strong></td><td >Cases</td></tr>
-        <!--<tr><td class="text-orange"><strong>{{totalCriticalCases}}</strong></td><td>Critical</td></tr>-->
         <tr><td class="text-red"><strong>{{generalInfo.deaths}}</strong></td><td>Deaths</td></tr>
         <tr><td class="text-green"><strong>{{generalInfo.recovered}}</strong></td><td>Recovered</td></tr>
       </table>
@@ -13,6 +12,19 @@
       <table>
         <tr><td><strong>{{todayCases}}</strong></td><td>Cases</td></tr>
         <tr><td class="text-red"><strong>{{todayDeaths}}</strong></td><td>Deaths</td></tr>
+      </table>
+    </mat-card>
+    <mat-card class="general-card text-right">
+      <h1 class="card-title text-black text-center">Active Cases</h1>
+      <table>
+        <tr><td><strong>{{generalInfo.cases - generalInfo.deaths - generalInfo.recovered}}</strong></td><td >Currently Infected</td></tr>
+        <tr><td class="text-blue"><strong>{{generalInfo.cases - generalInfo.deaths - generalInfo.recovered - totalCriticalCases}}</strong></td><td >in Mild Condition</td></tr>
+        <tr><td class="text-orange"><strong>{{totalCriticalCases}}</strong></td><td>Serious or Critical</td></tr>
+      </table>
+      <br>
+      <h1 class="card-title text-black text-center">Closed Cases</h1>
+      <table>
+        <tr><td><strong>{{generalInfo.deaths + generalInfo.recovered}}</strong></td><td>Recovered and Deaths</td></tr>
       </table>
     </mat-card>
     <mat-card *ngIf="currentCountry" class="general-card text-right">

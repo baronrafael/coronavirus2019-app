@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
   totalCriticalCases: number;
   todayCases: number;
   todayDeaths: number;
+  currentlyInfectedPatients: number;
 
   isTracking = false;
 
@@ -86,7 +87,7 @@ export class HomeComponent implements OnInit {
         //console.log(res)
         this.CountriesInfo = res;
         console.log(this.CountriesInfo);
-        this.calculateTodaysStats();
+        this.calculateStats();
       },
       (err) => {
         console.log(err);
@@ -108,7 +109,7 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  calculateTodaysStats(){
+  calculateStats(){
     this.totalCriticalCases = 0;
     this.todayCases = 0;
     this.todayDeaths = 0;
