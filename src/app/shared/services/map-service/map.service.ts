@@ -38,7 +38,7 @@ export class MapService {
       style: this.style,
       zoom: this.zoom,
       center: [this.lng, this.lat]
-      
+
     });
     this.innerMap.addControl(new mapboxgl.NavigationControl());
     let marker = new mapboxgl.Marker({
@@ -52,5 +52,5 @@ export class MapService {
     return this.innerMap;
   }
 
-  
+
 }
