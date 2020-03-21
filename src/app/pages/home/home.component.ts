@@ -96,6 +96,8 @@ export class HomeComponent implements OnInit {
   }
 
   getSpecificCountryInfo(country: string){
+    if(country == 'United States'){country = 'USA';}
+    else if(country == 'United Kingdom'){country = 'UK';}
     this.novelCovid.getSpecificCountryInfo(country)
     .subscribe(
       (res) => {
