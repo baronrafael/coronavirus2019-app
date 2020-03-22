@@ -4,8 +4,12 @@
 
 export const environment = {
   production: false,
-  mapBoxToken:
-    'pk.eyJ1IjoiYWxlc3NhbmRyb2pjbSIsImEiOiJjanhvdWI0YWIwYXUxM2xvYW81bmhzanp3In0.RJZpeYf56llLWRCE5FZmMQ',
+  mapBox: {
+    token: '',
+    urls: {
+      datasets: 'https://api.mapbox.com/datasets/v1/',
+    },
+  },
   novelCovidUrl: ' https://corona.lmao.ninja',
 };
 
