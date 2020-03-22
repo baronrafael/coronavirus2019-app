@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   mapBoxToken:
-    'pk.eyJ1IjoiYmFyb25yYWZhZWwiLCJhIjoiY2s3d2dvY2w2MDIwZDNtbWVmb25mcG1tNCJ9.lI-p3CxE5VT56_bUpnVf_A',
+    'pk.eyJ1IjoiYWxlc3NhbmRyb2pjbSIsImEiOiJjanhvdWI0YWIwYXUxM2xvYW81bmhzanp3In0.RJZpeYf56llLWRCE5FZmMQ',
   novelCovidUrl: ' https://corona.lmao.ninja',
 };
 
