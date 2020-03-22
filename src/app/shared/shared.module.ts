@@ -20,6 +20,7 @@ import { MapComponent } from './components/map-component/map.component';
     MaterialModule,
     FlexLayoutModule,
     MapComponent,
+    GeneralInfoComponent,
   ],
 })
 export class SharedModule {}

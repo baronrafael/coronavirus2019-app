@@ -1,66 +1,59 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NovelcovidService } from '@core/services/novelcovid.service';
 import { LocationService } from '@core/services/location.service';
-import { CountryInfo, GeneralInfo } from '@core/models';
+import { CountryInfo, GeneralInfo, HomeSummary } from '@core/models';
+import { BehaviorSubject, EMPTY, Observable, pipe, Subject } from 'rxjs';
+import { catchError, takeUntil, tap } from 'rxjs/operators';
+import { InfoDrawerService } from '@shared/services/info-drawer.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
-  generalInfo: GeneralInfo;
-  countriesInfo: CountryInfo[];
-  currentCountry: CountryInfo;
-  totalCriticalCases: number;
-  todayCases: number;
-  todayDeaths: number;
+export class HomeComponent implements OnInit, OnDestroy {
+  generalInfo$: Observable<GeneralInfo>;
+  countriesInfo$: Observable<CountryInfo[]>;
+  currentCountry$: Observable<CountryInfo>;
+  homeSummary$: BehaviorSubject<HomeSummary> = new BehaviorSubject<HomeSummary>(
+    {
+      todayCases: 0,
+      todayDeaths: 0,
+      totalCriticalCases: 0,
+    },
+  );
+  destroy$ = new Subject();
 
   constructor(
     private locationService: LocationService,
     private novelCovid: NovelcovidService,
+    public infoDrawer: InfoDrawerService,
   ) {}
 
   ngOnInit(): void {
     this.getLocationInfo();
-    this.getAllInfo();
-    this.getCountriesInfo();
+    this.generalInfo$ = this.novelCovid.getAllInfo().pipe(this.logAndCatch());
+    this.countriesInfo$ = this.novelCovid
+      .getCountriesInfo()
+      .pipe(this.logAndCatch());
+
+    // Calculations
+    this.countriesInfo$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((info) => this.calculateStats(info));
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
   }
 
   getLocationInfo() {
     this.locationService.getLocationWithIP().subscribe(
       (res: any) => {
-        // console.log(res);
         this.getSpecificCountryInfo(res.country_name);
       },
       (err: any) => {
-        console.log(err);
-      },
-    );
-  }
-
-  getAllInfo() {
-    this.novelCovid.getAllInfo().subscribe(
-      (res) => {
-        // console.log(res)
-        this.generalInfo = res;
-        console.log(this.generalInfo);
-      },
-      (err) => {
-        console.log(err);
-      },
-    );
-  }
-
-  getCountriesInfo() {
-    this.novelCovid.getCountriesInfo().subscribe(
-      (res) => {
-        // console.log(res)
-        this.countriesInfo = res;
-        console.log(this.countriesInfo);
-        this.calculateStats();
-      },
-      (err) => {
         console.log(err);
       },
     );
@@ -72,27 +65,33 @@ export class HomeComponent implements OnInit {
     } else if (country === 'United Kingdom') {
       country = 'UK';
     }
-    this.novelCovid.getSpecificCountryInfo(country).subscribe(
-      (res) => {
-        // console.log(res)
-        this.currentCountry = res;
-        console.log(this.currentCountry);
-      },
-      (err) => {
-        console.log(err);
-      },
-    );
+    this.currentCountry$ = this.novelCovid.getSpecificCountryInfo(country);
   }
 
-  calculateStats() {
-    this.totalCriticalCases = 0;
-    this.todayCases = 0;
-    this.todayDeaths = 0;
-    for (let i = 0; i < this.countriesInfo.length; i++) {
-      this.totalCriticalCases =
-        this.totalCriticalCases + this.countriesInfo[i].critical;
-      this.todayCases = this.todayCases + this.countriesInfo[i].todayCases;
-      this.todayDeaths = this.todayDeaths + this.countriesInfo[i].todayDeaths;
-    }
+  calculateStats(info: CountryInfo[]) {
+    const caseCalculations = {
+      totalCriticalCases: 0,
+      todayCases: 0,
+      todayDeaths: 0,
+    };
+    info.reduce<typeof caseCalculations>(
+      ({ totalCriticalCases, todayCases, todayDeaths }, curr) => ({
+        todayDeaths: todayDeaths + curr.todayDeaths,
+        todayCases: todayCases + curr.todayCases,
+        totalCriticalCases: totalCriticalCases + curr.critical,
+      }),
+      caseCalculations,
+    );
+    this.homeSummary$.next(caseCalculations);
+  }
+
+  private logAndCatch() {
+    return pipe(
+      tap((info: any) => console.log(info)),
+      catchError((err) => {
+        console.log(err);
+        return EMPTY;
+      }),
+    );
   }
 }
