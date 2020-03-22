@@ -1,2 +1,11 @@
-<div id="mapContainer" class="map-container"></div>
-;
+<mgl-map [style]="style" [zoom]="[zoom]" (load)="bindMap($event)">
+  <mgl-marker
+    *ngIf="position"
+    [lngLat]="[position.coords.longitude, position.coords.latitude]"
+    [draggable]="false"
+    className="marker"
+  >
+    <mat-icon color="warn">location_on</mat-icon>
+  </mgl-marker>
+  <mgl-control mglNavigation></mgl-control>
+</mgl-map>
