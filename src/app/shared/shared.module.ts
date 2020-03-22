@@ -4,9 +4,10 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from './material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MapComponent } from './components/map-component/map.component';
+import { GeneralInfoComponent } from '@shared/components/general-info/general-info.component';
 
 @NgModule({
-  declarations: [MapComponent],
+  declarations: [MapComponent, GeneralInfoComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

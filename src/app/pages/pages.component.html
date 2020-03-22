@@ -31,7 +31,7 @@
   </mat-drawer>
   <div fxFill fxLayout="column" fxLayoutAlign="space-between center">
     <div class="width-100 header">
-      <mat-toolbar>
+      <mat-toolbar fxFlex fxLayoutAlign="space-between center">
         <button class="ml--15" mat-icon-button (click)="drawer.toggle()">
           <mat-icon>menu</mat-icon>
         </button>
@@ -39,6 +39,13 @@
         <span class="title text-center">COVID-19</span>
         <span class="spacer"></span>
         <span class="btn-none"></span>
+        <button
+          class="ml--15 info"
+          mat-icon-button
+          (click)="infoDrawer.toggle()"
+        >
+          <mat-icon>info</mat-icon>
+        </button>
       </mat-toolbar>
     </div>
     <div class="content main-content">
