@@ -19,7 +19,7 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
     MaterialModule,
     FlexLayoutModule,
     NgxMapboxGLModule.withConfig({
-      accessToken: environment.mapBoxToken,
+      accessToken: environment.mapBox.token,
     }),
   ],
   exports: [

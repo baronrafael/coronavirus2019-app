@@ -1,11 +1,26 @@
 <mgl-map [style]="style" [zoom]="[zoom]" (load)="bindMap($event)">
   <mgl-marker
-    *ngIf="position"
-    [lngLat]="[position.coords.longitude, position.coords.latitude]"
+    *ngIf="lngLat"
+    [lngLat]="lngLat"
     [draggable]="false"
     className="marker"
   >
     <mat-icon color="warn">location_on</mat-icon>
+    <mgl-vector-source
+      id="all-countries"
+      url="mapbox://alessandrojcm.aakldtpw"
+    ></mgl-vector-source>
+    <mgl-layer
+      id="all-countries"
+      source="all-countries"
+      type="fill"
+      [paint]="{
+        'fill-opacity': 1,
+        'fill-outline-color': '#f5f5f5',
+      }"
+      sourceLayer="all-countries-c7nj81"
+    ></mgl-layer>
   </mgl-marker>
   <mgl-control mglNavigation></mgl-control>
+  <mgl-control mglGeolocate (geolocate)="geolocate($event)"></mgl-control>
 </mgl-map>

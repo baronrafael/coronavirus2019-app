@@ -33,6 +33,21 @@ export class MapComponent implements OnInit {
     if (!this.position) {
       return;
     }
+    this.zoomToPosition();
+  }
+
+  geolocate(pos: Position) {
+    this.position = pos;
+    this.zoomToPosition();
+  }
+
+  get lngLat() {
+    return !this.position
+      ? null
+      : [this.position.coords.longitude, this.position.coords.latitude];
+  }
+
+  private zoomToPosition() {
     this.map.setCenter([
       this.position.coords.longitude,
       this.position.coords.latitude,
