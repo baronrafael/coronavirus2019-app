@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NovelcovidService } from '@core/services/novelcovid.service';
 import { LocationService } from '@core/services/location.service';
+import { CountryInfo, GeneralInfo } from '@core/models';
 
 @Component({
   selector: 'app-home',
@@ -8,9 +9,9 @@ import { LocationService } from '@core/services/location.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  generalInfo: any;
-  CountriesInfo: any;
-  currentCountry: any;
+  generalInfo: GeneralInfo;
+  countriesInfo: CountryInfo[];
+  currentCountry: CountryInfo;
   totalCriticalCases: number;
   todayCases: number;
   todayDeaths: number;
@@ -55,8 +56,8 @@ export class HomeComponent implements OnInit {
     this.novelCovid.getCountriesInfo().subscribe(
       (res) => {
         // console.log(res)
-        this.CountriesInfo = res;
-        console.log(this.CountriesInfo);
+        this.countriesInfo = res;
+        console.log(this.countriesInfo);
         this.calculateStats();
       },
       (err) => {
@@ -87,11 +88,11 @@ export class HomeComponent implements OnInit {
     this.totalCriticalCases = 0;
     this.todayCases = 0;
     this.todayDeaths = 0;
-    for (let i = 0; i < this.CountriesInfo.length; i++) {
+    for (let i = 0; i < this.countriesInfo.length; i++) {
       this.totalCriticalCases =
-        this.totalCriticalCases + this.CountriesInfo[i].critical;
-      this.todayCases = this.todayCases + this.CountriesInfo[i].todayCases;
-      this.todayDeaths = this.todayDeaths + this.CountriesInfo[i].todayDeaths;
+        this.totalCriticalCases + this.countriesInfo[i].critical;
+      this.todayCases = this.todayCases + this.countriesInfo[i].todayCases;
+      this.todayDeaths = this.todayDeaths + this.countriesInfo[i].todayDeaths;
     }
   }
 }

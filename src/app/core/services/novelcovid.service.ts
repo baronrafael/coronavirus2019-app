@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
+import { CountryInfo, GeneralInfo } from '@core/models';
 
 @Injectable({
   providedIn: 'root',
@@ -15,14 +16,14 @@ export class NovelcovidService {
   }
 
   getAllInfo() {
-    return this.http.get(this.getAllInfoUrl);
+    return this.http.get<GeneralInfo>(this.getAllInfoUrl);
   }
 
   getCountriesInfo() {
-    return this.http.get(this.getCountriesInfoUrl);
+    return this.http.get<CountryInfo[]>(this.getCountriesInfoUrl);
   }
 
   getSpecificCountryInfo(country: string) {
-    return this.http.get(this.getCountriesInfoUrl + '/' + country);
+    return this.http.get<CountryInfo>(this.getCountriesInfoUrl + '/' + country);
   }
 }
