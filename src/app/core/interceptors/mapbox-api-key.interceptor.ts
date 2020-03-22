@@ -30,7 +30,7 @@ export class MapboxApiKeyInterceptor implements HttpInterceptor {
       url: request.urlWithParams,
       params: new HttpParams({
         fromObject: {
-          access_token: environment.mapBoxToken,
+          access_token: environment.mapBox.token,
         },
       }),
     });

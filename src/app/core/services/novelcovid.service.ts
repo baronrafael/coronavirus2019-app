@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { CountryInfo, GeneralInfo } from '@core/models';
+import { NOVEL_COVID_SERVICE } from '@core/models/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -8,9 +9,8 @@ import { CountryInfo, GeneralInfo } from '@core/models';
 export class NovelcovidService {
   private readonly getAllInfoUrl;
   private readonly getCountriesInfoUrl;
-  private readonly getCountryInfoUrl;
 
-  constructor(private http: ApiService) {
+  constructor(@Inject(NOVEL_COVID_SERVICE) private http: ApiService) {
     this.getAllInfoUrl = 'all';
     this.getCountriesInfoUrl = 'countries';
   }

@@ -1,25 +1,19 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { ApiService } from '@core/services/api.service';
-import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
+import { MAPBOX_DATASET_API_SERVICE } from '@core/models/constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MapboxDatasetService {
-  private readonly baseUrl: string;
-
-  constructor(private api: ApiService) {
-    this.baseUrl = environment.mapBox.urls.datasets;
-  }
+  constructor(@Inject(MAPBOX_DATASET_API_SERVICE) private api: ApiService) {}
 
   fetchDataset(
     datasetId: string,
     username: string,
   ): Observable<GeoJSON.FeatureCollection> {
-    return this.api.get<GeoJSON.FeatureCollection>(
-      `${this.baseUrl}/${username}/${datasetId}`,
-    );
+    return this.api.get<GeoJSON.FeatureCollection>(`${username}/${datasetId}`);
   }
 
   fetchDatasetFeatures(
@@ -27,7 +21,7 @@ export class MapboxDatasetService {
     username: string,
   ): Observable<GeoJSON.FeatureCollection> {
     return this.api.get<GeoJSON.FeatureCollection>(
-      `${this.baseUrl}/${username}/${datasetId}/features`,
+      `${username}/${datasetId}/features`,
     );
   }
 }
