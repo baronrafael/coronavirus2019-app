@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from './material/material.module';
-import { FlexLayoutModule } from "@angular/flex-layout";
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { MapComponent } from './components/map-component/map.component';
 
 @NgModule({
@@ -12,14 +12,14 @@ import { MapComponent } from './components/map-component/map.component';
     ReactiveFormsModule,
     FormsModule,
     MaterialModule,
-    FlexLayoutModule
+    FlexLayoutModule,
   ],
   exports: [
     ReactiveFormsModule,
     FormsModule,
     MaterialModule,
     FlexLayoutModule,
-    MapComponent
-  ]
+    MapComponent,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

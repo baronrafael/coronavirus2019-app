@@ -8,7 +8,7 @@ import { MAP_CONTAINER_NAME } from '@shared/models/constant';
 // Inspired from: https://medium.com/@mugan86/mapas-en-angular-8-con-mapbox-gl-185b157788af
 @Injectable()
 export class MapService {
-  private mapbox = (mapboxgl as typeof mapboxgl);
+  private mapbox = mapboxgl as typeof mapboxgl;
   private innerMap: mapboxgl.Map;
   private style = `mapbox://styles/mapbox/streets-v11`;
   private lng;
@@ -19,10 +19,10 @@ export class MapService {
     this.mapbox.accessToken = environment.mapBoxToken;
   }
 
-  findMe(){
+  findMe() {
     if (navigator.geolocation) {
-      console.log("🗺️ yep, we can find u! 😃");
-      navigator.geolocation.getCurrentPosition((position) =>{
+      console.log('🗺️ yep, we can find u! 😃');
+      navigator.geolocation.getCurrentPosition((position) => {
         this.lng = position.coords.longitude;
         this.lat = position.coords.latitude;
         this.buildMap();
@@ -37,20 +37,17 @@ export class MapService {
       container: this.containerName,
       style: this.style,
       zoom: this.zoom,
-      center: [this.lng, this.lat]
-
+      center: [this.lng, this.lat],
     });
     this.innerMap.addControl(new mapboxgl.NavigationControl());
-    let marker = new mapboxgl.Marker({
-      draggable: false
+    const marker = new mapboxgl.Marker({
+      draggable: false,
     })
-    .setLngLat([this.lng, this.lat])
-    .addTo(this.innerMap);
+      .setLngLat([this.lng, this.lat])
+      .addTo(this.innerMap);
   }
 
   get map() {
     return this.innerMap;
   }
-
-
 }

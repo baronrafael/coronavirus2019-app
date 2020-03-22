@@ -9,18 +9,17 @@ import { MapService } from '@shared/services';
   providers: [
     {
       provide: MAP_CONTAINER_NAME,
-      useValue: 'mapContainer'
+      useValue: 'mapContainer',
     },
-    MapService]
+    MapService,
+  ],
 })
 export class MapComponent implements OnInit, AfterViewInit {
-  constructor (private mapInstance: MapService) {
-  }
+  constructor(private mapInstance: MapService) {}
 
-  ngOnInit (): void {
-  }
+  ngOnInit(): void {}
 
-  ngAfterViewInit (): void {
+  ngAfterViewInit(): void {
     this.mapInstance.findMe();
   }
 }

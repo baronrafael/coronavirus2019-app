@@ -1,33 +1,37 @@
-.main-content{
-    background-color: whitesmoke;
-    width: 100%;
+.main-content {
+  background-color: whitesmoke;
+  width: 100%;
 }
 
 .sidenav {
-    padding: 20px;
-    height: 100%;
+  padding: 20px;
+  height: 100%;
 }
 
-.sidenav-title{
-    font-size: 20px;
+.sidenav-title {
+  font-size: 20px;
 }
 
-.sidenav-btn{
-    text-align: left;
-    font-size: 16px;
+.sidenav-btn {
+  text-align: left;
+  font-size: 16px;
 }
 
-.icon-30{
-    width: 30px;
-    height: 30px;
+.icon-30 {
+  width: 30px;
+  height: 30px;
 }
 
-.heart{
-    color: red;
+.heart {
+  color: red;
 }
 
-:host ::ng-deep.mat-drawer-inner-container{
-    display: contents;
+:host ::ng-deep.mat-drawer-inner-container {
+  display: contents;
 }
-  
-.title{ letter-spacing: 5px !important; font-size: 24px !important; font-weight: 100 !important; }
+
+.title {
+  letter-spacing: 5px !important;
+  font-size: 24px !important;
+  font-weight: 100 !important;
+}
