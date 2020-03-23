@@ -14,9 +14,12 @@ import {
 import { environment } from '@environments/environment';
 import { ApiService } from '@core/services';
 
+import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
+
 @NgModule({
   declarations: [],
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule, HttpClientModule, LoadingBarHttpClientModule],
+  exports: [LoadingBarHttpClientModule],
 })
 export class CoreModule {
   static forRoot(): ModuleWithProviders<CoreModule> {
