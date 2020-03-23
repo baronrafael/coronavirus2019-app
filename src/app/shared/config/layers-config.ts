@@ -8,7 +8,7 @@ import {
 export const MAP_LAYERS_TRESHOLD_CONFIG: TresholdConfig = {
   [TresholdNames.LOW]: {
     level: [0, 500],
-    alpha: 0.25,
+    alpha: 0.35,
   },
   [TresholdNames.MEDIUM]: {
     level: [500, 1000],
