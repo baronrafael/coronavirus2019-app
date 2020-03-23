@@ -3,19 +3,19 @@
   <table>
     <tr>
       <td>
-        <strong>{{ generalInfo.cases }}</strong>
+        <strong>{{ generalInfo?.cases }}</strong>
       </td>
       <td>Cases</td>
     </tr>
     <tr>
       <td class="text-red">
-        <strong>{{ generalInfo.deaths }}</strong>
+        <strong>{{ generalInfo?.deaths }}</strong>
       </td>
       <td>Deaths</td>
     </tr>
     <tr>
       <td class="text-green">
-        <strong>{{ generalInfo.recovered }}</strong>
+        <strong>{{ generalInfo?.recovered }}</strong>
       </td>
       <td>Recovered</td>
     </tr>
@@ -25,13 +25,13 @@
   <table>
     <tr>
       <td>
-        <strong>{{ summary.todayCases }}</strong>
+        <strong>{{ summary?.todayCases }}</strong>
       </td>
       <td>Cases</td>
     </tr>
     <tr>
       <td class="text-red">
-        <strong>{{ summary.todayDeaths }}</strong>
+        <strong>{{ summary?.todayDeaths }}</strong>
       </td>
       <td>Deaths</td>
     </tr>
@@ -43,7 +43,7 @@
     <tr>
       <td>
         <strong>{{
-          generalInfo.cases - generalInfo.deaths - generalInfo.recovered
+          generalInfo?.cases - generalInfo?.deaths - generalInfo?.recovered
         }}</strong>
       </td>
       <td>Currently Infected</td>
@@ -51,17 +51,17 @@
     <tr>
       <td class="text-blue">
         <strong>{{
-          generalInfo.cases -
-            generalInfo.deaths -
-            generalInfo.recovered -
-            summary.totalCriticalCases
+          generalInfo?.cases -
+            generalInfo?.deaths -
+            generalInfo?.recovered -
+            summary?.totalCriticalCases
         }}</strong>
       </td>
       <td>in Mild Condition</td>
     </tr>
     <tr>
       <td class="text-orange">
-        <strong>{{ summary.totalCriticalCases }}</strong>
+        <strong>{{ summary?.totalCriticalCases }}</strong>
       </td>
       <td>Serious or Critical</td>
     </tr>
@@ -71,7 +71,7 @@
   <table>
     <tr>
       <td>
-        <strong>{{ generalInfo.deaths + generalInfo.recovered }}</strong>
+        <strong>{{ generalInfo?.deaths + generalInfo?.recovered }}</strong>
       </td>
       <td>Recovered and Deaths</td>
     </tr>
@@ -80,42 +80,42 @@
 <mat-card *ngIf="currentCountry" class="general-card text-right">
   <h1 class="card-title text-black text-center">Your Country</h1>
   <h2 class="card-title text-black text-center">
-    <strong>{{ currentCountry.country }}</strong>
+    <strong>{{ currentCountry?.country }}</strong>
   </h2>
   <table>
     <tr>
       <td>
-        <strong>{{ currentCountry.cases }}</strong>
+        <strong>{{ currentCountry?.cases }}</strong>
       </td>
       <td>Total Cases</td>
     </tr>
     <tr>
       <td>
-        <strong>{{ currentCountry.todayCases }}</strong>
+        <strong>{{ currentCountry?.todayCases }}</strong>
       </td>
       <td>Today Cases</td>
     </tr>
     <tr>
       <td class="text-orange">
-        <strong>{{ currentCountry.critical }}</strong>
+        <strong>{{ currentCountry?.critical }}</strong>
       </td>
       <td>Critical Cases</td>
     </tr>
     <tr>
       <td class="text-red">
-        <strong>{{ currentCountry.deaths }}</strong>
+        <strong>{{ currentCountry?.deaths }}</strong>
       </td>
       <td>Total Deaths</td>
     </tr>
     <tr>
       <td class="text-red">
-        <strong>{{ currentCountry.todayDeaths }}</strong>
+        <strong>{{ currentCountry?.todayDeaths }}</strong>
       </td>
       <td>Today Deaths</td>
     </tr>
     <tr>
       <td class="text-green">
-        <strong>{{ currentCountry.recovered }}</strong>
+        <strong>{{ currentCountry?.recovered }}</strong>
       </td>
       <td>Total Recovered</td>
     </tr>
