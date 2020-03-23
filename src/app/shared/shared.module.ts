@@ -11,9 +11,10 @@ import { environment } from '@environments/environment';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { MapLayerManagerService } from '@shared/services/map-layer-manager.service';
 import { ISO3166ConverterService } from '@shared/services/iso-3166-converter.service';
+import { MapInfoLayerComponent } from './components/map-info-layer/map-info-layer.component';
 
 @NgModule({
-  declarations: [MapComponent, GeneralInfoComponent],
+  declarations: [MapComponent, GeneralInfoComponent, MapInfoLayerComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
