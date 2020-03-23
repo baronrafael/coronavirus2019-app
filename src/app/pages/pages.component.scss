@@ -1,25 +1,27 @@
+@import 'src/theme';
+
 .main-content {
   background-color: whitesmoke;
   width: 100%;
 }
 
 .sidenav {
-  padding: 20px;
+  padding: 1.2rem;
   height: 100%;
 }
 
 .sidenav-title {
-  font-size: 20px;
+  font-size: 1.2rem;
 }
 
 .sidenav-btn {
   text-align: left;
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 .icon-30 {
-  width: 30px;
-  height: 30px;
+  width: 2rem;
+  height: 2rem;
 }
 
 .heart {
@@ -32,6 +34,36 @@
 
 .title {
   letter-spacing: 5px !important;
-  font-size: 24px !important;
+  font-size: 1.5rem !important;
   font-weight: 100 !important;
+}
+
+.info {
+  & > * {
+    animation: pulse 2s infinite;
+    transform: scale(1);
+  }
+  color: red;
+}
+
+@keyframes pulsate {
+  0% {
+    transform: scale(1);
+  }
+
+  25% {
+    transform: scale(1.25);
+  }
+
+  50% {
+    transform: scale(1.5);
+  }
+
+  75% {
+    transform: scale(1.25);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }

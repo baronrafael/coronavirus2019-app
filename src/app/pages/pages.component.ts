@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { InfoDrawerService } from '@shared/services/info-drawer.service';
 
 @Component({
   selector: 'app-pages',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./pages.component.scss'],
 })
 export class PagesComponent implements OnInit {
-  constructor() {}
+  constructor(public infoDrawer: InfoDrawerService) {}
 
   ngOnInit(): void {}
 }

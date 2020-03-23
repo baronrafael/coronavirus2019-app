@@ -1,2 +1,17 @@
-<div id="mapContainer" class="map-container"></div>
-;
+<mgl-map [style]="style" [zoom]="[zoom]" (load)="bindMap($event)">
+  <mgl-marker
+    *ngIf="lngLat"
+    [lngLat]="lngLat"
+    [draggable]="false"
+    className="marker"
+  >
+    <mat-icon color="warn">location_on</mat-icon>
+  </mgl-marker>
+  <app-map-info-layer
+    *ngIf="activeLayer"
+    [layer]="activeLayer"
+    before="place-label"
+  ></app-map-info-layer>
+  <mgl-control mglNavigation></mgl-control>
+  <mgl-control mglGeolocate (geolocate)="geolocate($event)"></mgl-control>
+</mgl-map>

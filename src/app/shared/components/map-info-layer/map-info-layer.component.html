@@ -1,0 +1,17 @@
+<ng-container *ngFor="let feature of layer.featureLayers; let i = index">
+  <mgl-geojson-source
+    [id]="layer.label + i.toString()"
+    [data]="feature.features"
+  >
+  </mgl-geojson-source>
+  <mgl-layer
+    [id]="layer.label + 'level' + i.toString()"
+    type="fill"
+    [source]="layer.label + i.toString()"
+    [before]="before"
+    [paint]="{
+      'fill-color': layer.color,
+      'fill-opacity': feature.alpha
+    }"
+  ></mgl-layer>
+</ng-container>

@@ -21,6 +21,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 const MATERIAL_MODULES = [
   CommonModule,
@@ -40,6 +41,7 @@ const MATERIAL_MODULES = [
   MatProgressSpinnerModule,
   MatProgressBarModule,
   MatSnackBarModule,
+  MatButtonToggleModule,
 ];
 
 @NgModule({
