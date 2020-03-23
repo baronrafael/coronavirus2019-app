@@ -14,6 +14,7 @@ import { MapInfoLayer } from '@core/models';
 })
 export class MapInfoLayerComponent implements OnInit {
   @Input() layer: Readonly<MapInfoLayer>;
+  @Input() before = '';
 
   constructor() {}
 

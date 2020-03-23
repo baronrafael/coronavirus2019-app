@@ -13,5 +13,10 @@
     >
     </app-general-info>
   </mat-sidenav>
-  <app-map></app-map>
+  <app-map [activeLayer]="currentLayer$ | async"></app-map>
+  <app-layer-controller
+    [names]="layerNames"
+    [disabled]="!(enableSelection$ | async)"
+    (layerSelected)="onLayerSelected($event)"
+  ></app-layer-controller>
 </mat-sidenav-container>

@@ -1,10 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NovelcovidService } from '@core/services/novelcovid.service';
 import { LocationService } from '@core/services/location.service';
-import { CountryInfo, GeneralInfo, HomeSummary } from '@core/models';
+import {
+  ColorConfig,
+  CountryInfo,
+  GeneralInfo,
+  HomeSummary,
+  LayerNames,
+  MapInfoLayer,
+} from '@core/models';
 import { BehaviorSubject, EMPTY, Observable, pipe, Subject } from 'rxjs';
 import { catchError, takeUntil, tap } from 'rxjs/operators';
 import { InfoDrawerService } from '@shared/services/info-drawer.service';
+import { MapLayerManagerService } from '@shared/services/map-layer-manager.service';
+import { LAYER_COLORS } from '@shared/config';
 
 @Component({
   selector: 'app-home',
@@ -12,6 +21,8 @@ import { InfoDrawerService } from '@shared/services/info-drawer.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject();
+
   generalInfo$: Observable<GeneralInfo>;
   countriesInfo$: Observable<CountryInfo[]>;
   currentCountry$: Observable<CountryInfo>;
@@ -22,13 +33,17 @@ export class HomeComponent implements OnInit, OnDestroy {
       totalCriticalCases: 0,
     },
   );
-  destroy$ = new Subject();
+  currentLayer$ = new BehaviorSubject<MapInfoLayer>(null);
 
+  layerNames: string[];
   constructor(
     private locationService: LocationService,
     private novelCovid: NovelcovidService,
     public infoDrawer: InfoDrawerService,
-  ) {}
+    private layerManager: MapLayerManagerService,
+  ) {
+    this.layerNames = [...Object.values(LayerNames), 'None'];
+  }
 
   ngOnInit(): void {
     this.getLocationInfo();
@@ -83,6 +98,20 @@ export class HomeComponent implements OnInit, OnDestroy {
       caseCalculations,
     );
     this.homeSummary$.next(caseCalculations);
+  }
+
+  onLayerSelected(name: LayerNames | 'None') {
+    if (name === 'None') {
+      return this.currentLayer$.next(null);
+    }
+
+    this.layerManager
+      .getMapLayer$(name)
+      .subscribe((layer) => this.currentLayer$.next(layer));
+  }
+
+  get enableSelection$() {
+    return this.layerManager.isReady$;
   }
 
   private logAndCatch() {
