@@ -9,6 +9,8 @@ import { GeneralInfoComponent } from '@shared/components/general-info/general-in
 import { environment } from '@environments/environment';
 
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import { MapLayerManagerService } from '@shared/services/map-layer-manager.service';
+import { ISO3166ConverterService } from '@shared/services/iso-3166-converter.service';
 
 @NgModule({
   declarations: [MapComponent, GeneralInfoComponent],
@@ -30,5 +32,6 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
     MapComponent,
     GeneralInfoComponent,
   ],
+  providers: [MapLayerManagerService, ISO3166ConverterService],
 })
 export class SharedModule {}
