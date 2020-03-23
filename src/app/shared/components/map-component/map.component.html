@@ -10,6 +10,7 @@
   <app-map-info-layer
     *ngIf="activeLayer$ | async"
     [layer]="activeLayer$ | async"
+    before="place-label"
   ></app-map-info-layer>
   <mgl-control mglNavigation></mgl-control>
   <mgl-control mglGeolocate (geolocate)="geolocate($event)"></mgl-control>

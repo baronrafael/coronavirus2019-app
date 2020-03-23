@@ -1,6 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MapComponent as MapGLComponent } from 'ngx-mapbox-gl';
 import { Map } from 'mapbox-gl';
+import { MapLayerManagerService } from '../../services/map-layer-manager.service';
+import { filter, switchMap } from 'rxjs/operators';
+import { LayerNames, MapInfoLayer } from '@core/models';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-map',
@@ -13,9 +17,11 @@ export class MapComponent implements OnInit {
   zoom = 2;
 
   @ViewChild(MapComponent) mapComponent!: MapGLComponent;
-  private map: Map;
 
-  constructor() {}
+  private map: Map;
+  activeLayer$: Observable<MapInfoLayer>;
+
+  constructor(private layerManager: MapLayerManagerService) {}
 
   ngOnInit(): void {
     if (navigator.geolocation) {
@@ -26,6 +32,10 @@ export class MapComponent implements OnInit {
     } else {
       console.log("Can't find u with navigator.geolocation 😞");
     }
+    this.activeLayer$ = this.layerManager.isReady$.pipe(
+      filter((res) => res),
+      switchMap(() => this.layerManager.getMapLayer$(LayerNames.INFECTED)),
+    );
   }
 
   bindMap(map: Map) {
