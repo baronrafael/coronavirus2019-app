@@ -5,12 +5,15 @@
 export const environment = {
   production: false,
   mapBox: {
-    token: '',
+    username: 'alessandrojcm',
+    token:
+      'pk.eyJ1IjoiYWxlc3NhbmRyb2pjbSIsImEiOiJjazgzbWw3MmMwMHluM2VtcmxoeWUwOW5iIn0.e6bdqayMgiuERemkcfWyWg',
     urls: {
-      datasets: 'https://api.mapbox.com/datasets/v1/',
+      datasets: 'https://api.mapbox.com/datasets/v1',
     },
   },
   novelCovidUrl: ' https://corona.lmao.ninja',
+  geoJSONId: 'ck82ppwcb0soq2lnw2itl9ibc',
 };
 
 /*
