@@ -40,6 +40,6 @@ export class MapboxApiKeyInterceptor implements HttpInterceptor {
 
   // Pretty cheap way to check if we must add the access token
   private mustIntercept(url: string): boolean {
-    return this.interceptUrls.includes(url);
+    return this.interceptUrls.some((ur) => url.includes(ur));
   }
 }
