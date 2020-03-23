@@ -32,6 +32,8 @@ export class ISO3166ConverterService {
         return 'CZE';
       case 'Palestine':
         return 'PSE';
+      case 'Australia':
+        return 'AUS';
     }
 
     return this.alphaConverter(name, alpha);
