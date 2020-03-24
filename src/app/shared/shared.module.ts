@@ -11,17 +11,10 @@ import { environment } from '@environments/environment';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { MapLayerManagerService } from '@shared/services/map-layer-manager.service';
 import { ISO3166ConverterService } from '@shared/services/iso-3166-converter.service';
-import { MapInfoLayerComponent } from './components/map-info-layer/map-info-layer.component';
 import { LayerControllerComponent } from './components/layer-controller/layer-controller.component';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @NgModule({
-  declarations: [
-    MapComponent,
-    GeneralInfoComponent,
-    MapInfoLayerComponent,
-    LayerControllerComponent,
-  ],
+  declarations: [MapComponent, GeneralInfoComponent, LayerControllerComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
