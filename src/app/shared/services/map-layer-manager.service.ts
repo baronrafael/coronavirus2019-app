@@ -45,15 +45,29 @@ export class MapLayerManagerService {
       // Mapping only needed properties
       map((countries) =>
         countries.map((country) => {
-          const { country: name, deaths, recovered, critical, cases } = country;
+          const {
+            countryInfo: { iso3 },
+            country: name,
+            deaths,
+            recovered,
+            critical,
+            cases,
+          } = country;
           return {
             [LayerNames.CRITICAL]: critical,
             [LayerNames.INFECTED]: cases,
             [LayerNames.DEATHS]: deaths,
             [LayerNames.RECOVERIES]: recovered,
-            country: iso3166.countryToCode(name, '3'),
+            // API is not consistent, some countries already had an ISO 3166-3
+            // code as name, so the leaved it that way and did not add info
+            // in the countryInfo key
+            country: iso3166.isISOAlphaCode(name, '3') ? name : iso3,
           } as LayerCountryInfo;
         }),
+      ),
+      // Filter out places that are not countries (like the diamond princess)
+      map((countries) =>
+        countries.filter(({ country }) => iso3166.checkValidity(country)),
       ),
     );
 
