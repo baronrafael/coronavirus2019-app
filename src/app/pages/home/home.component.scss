@@ -6,10 +6,18 @@ mat-sidenav-container {
   background-color: whitesmoke;
 }
 
-app-layer-controller {
+@mixin overlay_bottom_element_positions {
   position: absolute;
   bottom: 15%;
+}
+
+app-layer-controller {
+  @include overlay_bottom_element_positions;
   left: 1%;
+}
+app-map-legend {
+  @include overlay_bottom_element_positions;
+  right: 1%;
 }
 
 :host {

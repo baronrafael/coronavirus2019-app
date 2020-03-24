@@ -66,3 +66,19 @@ body {
 .text-right {
   text-align: right !important;
 }
+
+$box-shadow: -5px 10px 10px 1px rgba(0, 0, 0, 0.5);
+
+@keyframes pulsate {
+  0% {
+    transform: scale(0.95);
+  }
+
+  70% {
+    transform: scale(0.5);
+  }
+
+  100% {
+    transform: scale(0.95);
+  }
+}

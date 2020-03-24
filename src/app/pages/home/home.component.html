@@ -19,4 +19,8 @@
     [disabled]="!(enableSelection$ | async)"
     (layerSelected)="onLayerSelected($event)"
   ></app-layer-controller>
+  <app-map-legend
+    [layerColor]="activeLayerName$ | async"
+    [thresholds]="legendTreshold"
+  ></app-map-legend>
 </mat-sidenav-container>
