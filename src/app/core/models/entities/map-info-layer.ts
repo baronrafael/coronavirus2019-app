@@ -3,7 +3,7 @@ import { LayerNames } from '@core/models';
 export interface MapInfoLayer {
   label: LayerNames;
   color: string;
-  featureLayers: Array<{ features: GeoJSON.FeatureCollection; alpha: number }>;
+  featureLayers: Array<{ alpha3Codes: string[]; alpha: number }>;
 }
 
 export interface MapInfoLayers extends Record<LayerNames, MapInfoLayer> {}

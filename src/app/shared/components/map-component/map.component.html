@@ -1,4 +1,9 @@
-<mgl-map [style]="style" [zoom]="[zoom]" (load)="bindMap($event)">
+<mgl-map
+  [style]="style"
+  [zoom]="[zoom]"
+  (load)="bindMap($event)"
+  (render)="storeCountryFeatures()"
+>
   <mgl-marker
     *ngIf="lngLat"
     [lngLat]="lngLat"
@@ -7,11 +12,6 @@
   >
     <mat-icon color="warn">location_on</mat-icon>
   </mgl-marker>
-  <app-map-info-layer
-    *ngIf="activeLayer"
-    [layer]="activeLayer"
-    before="place-label"
-  ></app-map-info-layer>
   <mgl-control mglNavigation></mgl-control>
   <mgl-control mglGeolocate (geolocate)="geolocate($event)"></mgl-control>
 </mgl-map>

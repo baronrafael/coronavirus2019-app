@@ -8,10 +8,9 @@ import {
   MapLayerConfig,
   TresholdConfig,
 } from '@core/models';
-import { MapboxDatasetService, NovelcovidService } from '@core/services';
+import { NovelcovidService } from '@core/services';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { filter, map, startWith } from 'rxjs/operators';
-import { environment } from '@environments/environment';
 import {
   LAYER_COLORS,
   MAP_LAYERS_TRESHOLD_CONFIG,
@@ -34,15 +33,9 @@ export class MapLayerManagerService {
   );
 
   constructor(
-    private datasetService: MapboxDatasetService,
     private novelcovidService: NovelcovidService,
     iso3166: ISO3166ConverterService,
   ) {
-    // Fetch all necessary data
-    this.dataset$ = this.datasetService.fetchDatasetFeatures(
-      environment.geoJSONId,
-      environment.mapBox.username,
-    );
     this.countriesInfo$ = this.novelcovidService.getCountriesInfo().pipe(
       // Mapping only needed properties
       map((countries) =>
@@ -63,10 +56,7 @@ export class MapLayerManagerService {
     this.colors = LAYER_COLORS;
 
     // Service won't work until all data is loaded
-    combineLatest(
-      this.dataset$.pipe(startWith(null)),
-      this.countriesInfo$.pipe(startWith(null)),
-    )
+    combineLatest([this.countriesInfo$.pipe(startWith(null))])
       .pipe(filter((data) => data.every((d) => d)))
       .subscribe(() => this.ready$.next(true));
   }
@@ -76,9 +66,9 @@ export class MapLayerManagerService {
       return of(this.layers[name]);
     }
 
-    return combineLatest(this.dataset$, this.countriesInfo$).pipe(
-      map(([dataset, countries]) => {
-        this.layers[name] = this.calculateMapLayer(name, dataset, countries);
+    return combineLatest([this.countriesInfo$]).pipe(
+      map(([countries]) => {
+        this.layers[name] = this.calculateMapLayer(name, countries);
         return this.layers[name];
       }),
     );
@@ -90,26 +80,18 @@ export class MapLayerManagerService {
 
   private calculateMapLayer(
     name: LayerNames,
-    dataset: GeoJSON.FeatureCollection,
     countriesInfo: LayerCountryInfo[],
   ): MapInfoLayer {
     const featureLayers: Array<{
-      features: GeoJSON.FeatureCollection;
+      alpha3Codes: string[];
       alpha: number;
-    }> = Object.entries(this.config).map(([key, { level, alpha }]) => {
+    }> = Object.entries(this.config).map(([, { level, alpha }]) => {
       // Filter out the ISO 3166-3 code of the countries that fall in the current level
-      const countriesInLevel = countriesInfo
+      const alpha3Codes = countriesInfo
         .filter((country) => this.isInRange(country[name], level))
         .map(({ country }) => country);
-      // Filter out the GeoJSON Features of the countries
-      const features: GeoJSON.FeatureCollection = {
-        type: 'FeatureCollection',
-        features: dataset.features.filter(({ properties: { A3 } }) =>
-          countriesInLevel.includes(A3),
-        ),
-      };
       return {
-        features,
+        alpha3Codes,
         alpha,
       };
     });
