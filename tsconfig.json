@@ -17,7 +17,8 @@
       "@core/*": ["src/app/core/*"],
       "@environments/*": ["src/environments/*"],
       "@shared/*": ["src/app/shared/*"]
-    }
+    },
+    "allowSyntheticDefaultImports": true
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
