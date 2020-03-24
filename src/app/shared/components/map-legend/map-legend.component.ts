@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Input,
   OnChanges,
@@ -11,6 +12,7 @@ import { MapLayerConfig } from '@core/models';
   selector: 'app-map-legend',
   templateUrl: './map-legend.component.html',
   styleUrls: ['./map-legend.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MapLegendComponent implements OnInit, OnChanges {
   @Input() thresholds: {
