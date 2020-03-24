@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Input,
   OnChanges,
@@ -15,6 +16,7 @@ import flatten from 'lodash.flatten';
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MapComponent implements OnInit, OnChanges {
   private position: Position;

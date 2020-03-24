@@ -1,4 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { NovelcovidService } from '@core/services/novelcovid.service';
 import { LocationService } from '@core/services/location.service';
 import {
@@ -17,6 +22,7 @@ import { MapLayerManagerService } from '@shared/services/map-layer-manager.servi
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject();

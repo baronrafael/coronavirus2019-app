@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { NovelcovidService } from 'src/app/core/services/novelcovid.service';
 
 @Component({
   selector: 'app-countries',
   templateUrl: './countries.component.html',
   styleUrls: ['./countries.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CountriesComponent implements OnInit {
   constructor(private novelCovid: NovelcovidService) {}
