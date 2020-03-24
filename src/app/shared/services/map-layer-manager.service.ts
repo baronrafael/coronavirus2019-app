@@ -9,8 +9,8 @@ import {
   TresholdConfig,
 } from '@core/models';
 import { NovelcovidService } from '@core/services';
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
-import { filter, map, startWith } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, of, timer } from 'rxjs';
+import { filter, map, shareReplay, startWith, takeUntil } from 'rxjs/operators';
 import {
   LAYER_COLORS,
   MAP_LAYERS_TRESHOLD_CONFIG,
@@ -22,9 +22,11 @@ export class MapLayerManagerService {
   // Read only properties
 
   private readonly config: TresholdConfig;
-  private readonly dataset$: Observable<GeoJSON.FeatureCollection>;
   // Map country code directly to properties for fastest an easiest access
   private readonly countriesInfo$: Observable<LayerCountryInfo[]>;
+  // Refetch every hour
+  private readonly CACHE_TIME = 360000000;
+  private readonly refresh$: Observable<any>;
   protected colors: ColorConfig;
 
   private layers: MapInfoLayers | Partial<MapInfoLayers> = {};
@@ -36,7 +38,10 @@ export class MapLayerManagerService {
     private novelcovidService: NovelcovidService,
     iso3166: ISO3166ConverterService,
   ) {
+    this.refresh$ = timer(this.CACHE_TIME);
     this.countriesInfo$ = this.novelcovidService.getCountriesInfo().pipe(
+      shareReplay(),
+      takeUntil(this.refresh$),
       // Mapping only needed properties
       map((countries) =>
         countries.map((country) => {
