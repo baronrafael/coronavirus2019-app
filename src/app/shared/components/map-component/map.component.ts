@@ -115,16 +115,20 @@ export class MapComponent implements OnInit, OnChanges {
   }
 
   private constructFillOpacityExpression() {
-    const sanitizeData = this.activeLayer.featureLayers.map(
-      ({ alpha3Codes, alpha }) => {
+    const sanitizeData = this.activeLayer.featureLayers
+      .map(({ alpha3Codes, alpha }) => {
         const filtered = alpha3Codes.filter(Boolean);
+        // We don't wan empty country data since it makes Mapbox match explode
+        if (filtered.length === 0) {
+          return null;
+        }
 
         return {
-          alpha3Codes: filtered.length > 0 ? filtered : [''],
+          alpha3Codes: filtered,
           alpha,
         };
-      },
-    );
+      })
+      .filter(Boolean);
     return sanitizeData.reduce<Array<string[] | string | number>>(
       (prev, curr) => [...prev, curr.alpha3Codes, curr.alpha],
       ['match', ['get', 'A3']],
