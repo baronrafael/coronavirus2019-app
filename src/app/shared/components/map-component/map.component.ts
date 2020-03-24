@@ -9,7 +9,7 @@ import {
 import { MapComponent as MapGLComponent } from 'ngx-mapbox-gl';
 import { Map, MapboxGeoJSONFeature } from 'mapbox-gl';
 import { MapInfoLayer } from '@core/models';
-import * as flatten from 'lodash.flatten';
+import flatten from 'lodash.flatten';
 
 @Component({
   selector: 'app-map',
@@ -54,6 +54,7 @@ export class MapComponent implements OnInit, OnChanges {
     if (!this.position) {
       return;
     }
+    this.map.resize();
     this.zoomToPosition();
   }
 

@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NovelcovidService } from '@core/services/novelcovid.service';
 import { LocationService } from '@core/services/location.service';
 import {
-  ColorConfig,
   CountryInfo,
   GeneralInfo,
   HomeSummary,
@@ -13,7 +12,6 @@ import { BehaviorSubject, EMPTY, Observable, pipe, Subject } from 'rxjs';
 import { catchError, takeUntil, tap } from 'rxjs/operators';
 import { InfoDrawerService } from '@shared/services/info-drawer.service';
 import { MapLayerManagerService } from '@shared/services/map-layer-manager.service';
-import { LAYER_COLORS } from '@shared/config';
 
 @Component({
   selector: 'app-home',
