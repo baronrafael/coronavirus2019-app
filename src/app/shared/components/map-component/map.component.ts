@@ -112,7 +112,7 @@ export class MapComponent implements OnInit, OnChanges {
     if (navigator.geolocation) {
       console.log('🗺️ yep, we can find u! 😃');
       navigator.geolocation.getCurrentPosition((pos) => {
-        this.position = pos;
+        this.geolocate(pos);
       });
     } else {
       console.log("Can't find u with navigator.geolocation 😞");
@@ -133,7 +133,6 @@ export class MapComponent implements OnInit, OnChanges {
       return;
     }
     this.map.resize();
-    this.zoomToPosition();
   }
 
   geolocate(pos: Position) {
