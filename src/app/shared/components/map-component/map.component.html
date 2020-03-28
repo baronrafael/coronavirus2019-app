@@ -1,5 +1,9 @@
 <mgl-map [style]="style" [zoom]="[zoom]" (load)="bindMap($event)">
-  <mgl-geojson-source [data]="data" id="countries"></mgl-geojson-source>
+  <mgl-geojson-source
+    [data]="data"
+    id="countries"
+    [generateId]="true"
+  ></mgl-geojson-source>
   <mgl-layer
     id="countries-fill"
     type="fill"
@@ -7,6 +11,18 @@
     [paint]="{
       'fill-color': fillColor,
       'fill-opacity': opacityLevel
+    }"
+    (mouseMove)="onMouseHover($event)"
+    (mouseLeave)="onMouseLeave()"
+  ></mgl-layer>
+  <mgl-layer
+    id="countries-fill-hover"
+    type="fill"
+    source="countries"
+    [paint]="{
+      'fill-color': hoverColor,
+      'fill-opacity': hoverFilter$ | async,
+      'fill-outline-color': outlineColor
     }"
   ></mgl-layer>
   <mgl-layer

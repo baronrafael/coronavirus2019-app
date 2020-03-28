@@ -12,6 +12,7 @@ import { MapComponent as MapGLComponent } from 'ngx-mapbox-gl';
 import { Map, MapboxGeoJSONFeature, Style } from 'mapbox-gl';
 import { MapInfoLayer } from '@core/models';
 import flatten from 'lodash.flatten';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-map',
@@ -22,7 +23,6 @@ import flatten from 'lodash.flatten';
 export class MapComponent implements OnInit, OnChanges {
   private position: Position;
   private map: Map;
-  private countryFeatures: MapboxGeoJSONFeature[] = [];
 
   // The following properties are Mapbox Specific, for more information
   // check out their documentation on layouts, painting and styles
@@ -31,7 +31,12 @@ export class MapComponent implements OnInit, OnChanges {
   // https://docs.mapbox.com/mapbox-gl-js/style-spec/expressions/
 
   // Expression filters to determine color
-  private hoverFilter: (string | number)[] = ['==', 'id', ''];
+  private readonly originalHoverFilter: (
+    | string
+    | string[]
+    | number
+    | number[]
+  )[] = ['match', ['id'], '', 1, 0];
   private layerColorFilter: (string | string[] | number | number[])[] = [
     'match',
     ['get', 'A3'],
@@ -102,6 +107,10 @@ export class MapComponent implements OnInit, OnChanges {
   zoom = 2;
   data = environment.mapBox.geoJsonSource;
 
+  hoverFilter$ = new BehaviorSubject<(string | string[] | number | number[])[]>(
+    this.originalHoverFilter,
+  );
+
   @ViewChild(MapComponent) mapComponent!: MapGLComponent;
 
   @Input() activeLayer: MapInfoLayer;
@@ -140,15 +149,19 @@ export class MapComponent implements OnInit, OnChanges {
     this.zoomToPosition();
   }
 
-  storeCountryFeatures() {
-    if (!this.map) {
+  onMouseHover(mouseEvent: { features: MapboxGeoJSONFeature[] }) {
+    if (!this.activeLayer) {
       return;
     }
-    this.countryFeatures = [
-      ...this.map.queryRenderedFeatures(undefined, {
-        layers: ['countries-landmass'],
-      }),
-    ];
+
+    const [country] = mouseEvent.features;
+    const [condition, property, , target, fallback] = this.originalHoverFilter;
+
+    this.hoverFilter$.next([condition, property, country.id, target, fallback]);
+  }
+
+  onMouseLeave() {
+    this.hoverFilter$.next(this.originalHoverFilter);
   }
 
   get lngLat() {
@@ -163,6 +176,17 @@ export class MapComponent implements OnInit, OnChanges {
 
   get opacityLevel() {
     return this.layerOpacityFilter;
+  }
+
+  get hoverColor() {
+    return environment.mapBackgroundColor;
+  }
+
+  get outlineColor() {
+    if (this.activeLayer) {
+      return this.activeLayer.color;
+    }
+    return environment.mapBackgroundColor;
   }
 
   private zoomToPosition() {
