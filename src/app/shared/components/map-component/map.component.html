@@ -1,9 +1,32 @@
-<mgl-map
-  [style]="style"
-  [zoom]="[zoom]"
-  (load)="bindMap($event)"
-  (render)="storeCountryFeatures()"
->
+<mgl-map [style]="style" [zoom]="[zoom]" (load)="bindMap($event)">
+  <mgl-geojson-source [data]="data" id="countries"></mgl-geojson-source>
+  <mgl-layer
+    id="countries-fill"
+    type="fill"
+    source="countries"
+    [paint]="{
+      'fill-color': fillColor,
+      'fill-opacity': opacityLevel
+    }"
+  ></mgl-layer>
+  <mgl-layer
+    id="admin"
+    source="admin"
+    sourceLayer="admin"
+    type="line"
+    [paint]="countriesBorderPaint"
+  >
+  </mgl-layer>
+  <mgl-layer
+    id="labels"
+    source="admin"
+    sourceLayer="place_label"
+    type="symbol"
+    [layout]="labelsLayout"
+    [paint]="labelsPaint"
+    [filter]="countriesLabel"
+  >
+  </mgl-layer>
   <mgl-marker
     *ngIf="lngLat"
     [lngLat]="lngLat"
@@ -13,5 +36,4 @@
     <mat-icon color="warn">location_on</mat-icon>
   </mgl-marker>
   <mgl-control mglNavigation></mgl-control>
-  <mgl-control mglGeolocate (geolocate)="geolocate($event)"></mgl-control>
 </mgl-map>

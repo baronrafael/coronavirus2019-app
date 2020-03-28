@@ -7,8 +7,9 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
+import { environment } from '@environments/environment';
 import { MapComponent as MapGLComponent } from 'ngx-mapbox-gl';
-import { Map, MapboxGeoJSONFeature } from 'mapbox-gl';
+import { Map, MapboxGeoJSONFeature, Style } from 'mapbox-gl';
 import { MapInfoLayer } from '@core/models';
 import flatten from 'lodash.flatten';
 
@@ -23,8 +24,83 @@ export class MapComponent implements OnInit, OnChanges {
   private map: Map;
   private countryFeatures: MapboxGeoJSONFeature[] = [];
 
-  style = 'mapbox://styles/alessandrojcm/ck82fo7fu50j81ipckt4kyq3l';
+  // The following properties are Mapbox Specific, for more information
+  // check out their documentation on layouts, painting and styles
+  // https://docs.mapbox.com/mapbox-gl-js/style-spec/
+  // https://docs.mapbox.com/mapbox-gl-js/style-spec/layers/
+  // https://docs.mapbox.com/mapbox-gl-js/style-spec/expressions/
+
+  // Expression filters to determine color
+  private hoverFilter: (string | number)[] = ['==', 'id', ''];
+  private layerColorFilter: (string | string[] | number | number[])[] = [
+    'match',
+    ['get', 'A3'],
+    [''],
+    environment.mapFillColor,
+    environment.mapFillColor,
+  ];
+  private layerOpacityFilter: (string | string[] | number | number[])[] = [
+    'match',
+    ['get', 'A3'],
+    [''],
+    1,
+    1,
+  ];
+
+  // Root style of the map
+  style: Style = {
+    name: 'root',
+    version: 8,
+    glyphs: 'mapbox://fonts/mapbox/{fontstack}/{range}.pbf',
+    sources: {
+      admin: {
+        type: 'vector',
+        url: 'mapbox://mapbox.mapbox-streets-v8',
+      },
+    },
+    layers: [
+      {
+        id: 'background',
+        type: 'background',
+        paint: {
+          'background-color': environment.mapBackgroundColor,
+        },
+      },
+    ],
+  };
+
+  // Expressions and properties for countries
+  countriesBorders = ['match', ['get', 'admin_level'], [0], 1, 0];
+  countriesBorderPaint = {
+    'line-color': environment.mapBackgroundColor,
+    'line-opacity': this.countriesBorders,
+  };
+  countriesLabel = [
+    'match',
+    ['get', 'class'],
+    ['country', 'disputed_country'],
+    true,
+    false,
+  ];
+
+  // Expressions and properties for countries's names
+  labelsFilter = ['to-string', ['get', 'name_en']];
+  textFont = ['Roboto Medium', 'Arial Unicode MS Regular'];
+  labelsLayout = {
+    'text-font': this.textFont,
+    'text-size': 16,
+    'text-field': this.labelsFilter,
+  };
+  labelsPaint = {
+    'text-color': environment.mapBackgroundColor,
+    'text-opacity': 1,
+    'text-halo-color': environment.mapFillColor,
+    'text-halo-blur': 2,
+    'text-halo-width': 1,
+  };
+
   zoom = 2;
+  data = environment.mapBox.geoJsonSource;
 
   @ViewChild(MapComponent) mapComponent!: MapGLComponent;
 
@@ -82,6 +158,14 @@ export class MapComponent implements OnInit, OnChanges {
       : [this.position.coords.longitude, this.position.coords.latitude];
   }
 
+  get fillColor() {
+    return this.layerColorFilter;
+  }
+
+  get opacityLevel() {
+    return this.layerOpacityFilter;
+  }
+
   private zoomToPosition() {
     this.map.setCenter([
       this.position.coords.longitude,
@@ -98,23 +182,27 @@ export class MapComponent implements OnInit, OnChanges {
       this.activeLayer.featureLayers.map(({ alpha3Codes }) => alpha3Codes),
     ).filter(Boolean);
 
-    this.map.setPaintProperty('countries-landmass', 'fill-color', [
+    this.layerColorFilter = [
       'match',
       ['get', 'A3'],
       ['', ...allCodes],
       this.activeLayer.color,
-      '#000000',
-    ]);
-    this.map.setPaintProperty('countries-landmass', 'fill-opacity', [
-      ...this.constructFillOpacityExpression(),
-      1,
-    ]);
-    this.map.triggerRepaint();
+      environment.mapFillColor,
+    ];
+    this.layerOpacityFilter = [...this.constructFillOpacityExpression(), 1];
+    this.map.setPaintProperty('countries-fill', 'fill-opacity', 0);
   }
 
   private removeFeaturePaint() {
-    this.map.setPaintProperty('countries-landmass', 'fill-color', '#000');
-    this.map.setPaintProperty('countries-landmass', 'fill-opacity', 1);
+    this.layerColorFilter = [
+      'match',
+      ['get', 'A3'],
+      [''],
+      environment.mapFillColor,
+      environment.mapFillColor,
+    ];
+    this.layerOpacityFilter = ['match', ['get', 'A3'], [''], 1, 1];
+    this.map.setPaintProperty('countries-fill', 'fill-opacity', 1);
   }
 
   private constructFillOpacityExpression() {
