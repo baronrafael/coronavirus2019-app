@@ -2,9 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnChanges,
   OnInit,
-  SimpleChanges,
 } from '@angular/core';
 import { MapLayerConfig } from '@core/models';
 
@@ -14,7 +12,7 @@ import { MapLayerConfig } from '@core/models';
   styleUrls: ['./map-legend.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MapLegendComponent implements OnInit, OnChanges {
+export class MapLegendComponent implements OnInit {
   @Input() thresholds: {
     label: string;
     level: MapLayerConfig;
@@ -28,10 +26,4 @@ export class MapLegendComponent implements OnInit, OnChanges {
   constructor() {}
 
   ngOnInit(): void {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.thresholds) {
-      console.log(this.thresholds);
-    }
-  }
 }

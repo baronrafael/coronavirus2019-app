@@ -20,6 +20,7 @@
     (layerSelected)="onLayerSelected($event)"
   ></app-layer-controller>
   <app-map-legend
+    *ngIf="currentLayer$ | async"
     [layerColor]="activeLayerName$ | async"
     [thresholds]="legendTreshold"
   ></app-map-legend>
