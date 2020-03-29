@@ -1,25 +1,84 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~mapbox-gl/dist/mapbox-gl.css';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
 
-.header{ flex: 0 0 auto; }
-.content{ flex: 1 1 auto; overflow-y: auto; }
-.footer{ flex: 0 0 auto; }
+.header {
+  flex: 0 0 auto;
+}
+.content {
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+.footer {
+  flex: 0 0 auto;
+}
 
-.spacer { flex: 1 1 auto; }
-.btn-none { width: 40px; height: 40px; }
-.rotate-180{ transform: rotate(180deg); }
+.spacer {
+  flex: 1 1 auto;
+}
+.btn-none {
+  width: 40px;
+  height: 40px;
+}
+.rotate-180 {
+  transform: rotate(180deg);
+}
 
-.ml--15{ margin-left: -15px !important; }
-.mr--15{ margin-right: -15px !important; }
-.mt-20{ margin-top: 20px !important; }
-.mb-15{ margin-bottom: 15px !important; }
-.mb-20{ margin-bottom: 20px !important; }
-.mr-20{ margin-right: 20px !important; }
-.ml-20{ margin-left: 20px !important; }
+.ml--15 {
+  margin-left: -15px !important;
+}
+.mr--15 {
+  margin-right: -15px !important;
+}
+.mt-20 {
+  margin-top: 20px !important;
+}
+.mb-15 {
+  margin-bottom: 15px !important;
+}
+.mb-20 {
+  margin-bottom: 20px !important;
+}
+.mr-20 {
+  margin-right: 20px !important;
+}
+.ml-20 {
+  margin-left: 20px !important;
+}
 
-.width-100{ width: 100%; }
-.height-100{ height: 100%; }
-.text-center{ text-align: center !important; }
-.text-right{ text-align: right !important; }
+.width-100 {
+  width: 100%;
+}
+.height-100 {
+  height: 100%;
+}
+.text-center {
+  text-align: center !important;
+}
+.text-right {
+  text-align: right !important;
+}
+
+$box-shadow: -5px 10px 10px 1px rgba(0, 0, 0, 0.5);
+
+@keyframes pulsate {
+  0% {
+    transform: scale(0.95);
+  }
+
+  70% {
+    transform: scale(0.5);
+  }
+
+  100% {
+    transform: scale(0.95);
+  }
+}

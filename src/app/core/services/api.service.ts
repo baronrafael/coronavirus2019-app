@@ -1,17 +1,15 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpResponse } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
 import { RequestOptions } from '../models/http/request-options';
 import { Observable } from 'rxjs';
+import { HOST_TOKEN } from '@core/models/constants';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ApiService {
   private readonly host;
 
-  constructor(protected http: HttpClient) {
-    this.host = environment.novelCovidUrl;
+  constructor(protected http: HttpClient, @Inject(HOST_TOKEN) host: string) {
+    this.host = host;
   }
 
   public delete<T>(

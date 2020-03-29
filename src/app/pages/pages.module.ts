@@ -8,10 +8,6 @@ import { CountriesComponent } from './countries/countries.component';
 
 @NgModule({
   declarations: [PagesComponent, HomeComponent, CountriesComponent],
-  imports: [
-    CommonModule,
-    SharedModule,
-    PagesRoutingModule
-  ]
+  imports: [CommonModule, SharedModule, PagesRoutingModule],
 })
-export class PagesModule { }
+export class PagesModule {}

@@ -1,0 +1,60 @@
+.general-card {
+  min-width: 18rem;
+  margin: 0.75rem;
+  flex-direction: column;
+  display: flex;
+  place-content: stretch center;
+  align-items: stretch;
+  height: fit-content;
+}
+
+.text-black {
+  color: black;
+}
+
+.text-orange {
+  color: orangered;
+}
+
+.text-red {
+  color: red;
+}
+
+.text-green {
+  color: green;
+}
+
+.text-blue {
+  color: blue;
+}
+
+table {
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th,
+td {
+  text-align: right;
+  padding: 0.5rem;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.title {
+  letter-spacing: 2px !important;
+  font-size: 1.2rem !important;
+  font-weight: 100 !important;
+}
+
+.card-title {
+  letter-spacing: 3px !important;
+  font-size: 1.8rem !important;
+  font-weight: 200 !important;
+}

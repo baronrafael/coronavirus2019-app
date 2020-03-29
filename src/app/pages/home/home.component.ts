@@ -1,40 +1,81 @@
-import { Component, OnInit } from '@angular/core';
-import { NovelcovidService } from 'src/app/core/services/novelcovid.service';
-import { LocationService } from 'src/app/core/services/location.service';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { NovelcovidService } from '@core/services/novelcovid.service';
+import { LocationService } from '@core/services/location.service';
+import {
+  CountryInfo,
+  GeneralInfo,
+  HomeSummary,
+  LayerNames,
+  MapInfoLayer,
+  TresholdConfig,
+} from '@core/models';
+import { BehaviorSubject, EMPTY, Observable, pipe, Subject } from 'rxjs';
+import { catchError, map, takeUntil, tap } from 'rxjs/operators';
+import { InfoDrawerService } from '@shared/services/info-drawer.service';
+import { MapLayerManagerService } from '@shared/services/map-layer-manager.service';
+import { MAP_LAYERS_TRESHOLD_CONFIG } from '@shared/config';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject();
 
-  generalInfo: any;
-  CountriesInfo: any;
-  currentCountry: any;
-  totalCriticalCases: number;
-  todayCases: number;
-  todayDeaths: number;
-  currentlyInfectedPatients: number;
+  generalInfo$: Observable<GeneralInfo>;
+  countriesInfo$: Observable<CountryInfo[]>;
+  currentCountry$: Observable<CountryInfo>;
+  homeSummary$: BehaviorSubject<HomeSummary> = new BehaviorSubject<HomeSummary>(
+    {
+      todayCases: 0,
+      todayDeaths: 0,
+      totalCriticalCases: 0,
+    },
+  );
+  selectedCountry$ = new Subject<CountryInfo>();
 
-  isTracking = false;
-
+  // Map data
+  currentLayer$ = new BehaviorSubject<MapInfoLayer>(null);
+  layerNames: string[];
+  treshold: TresholdConfig;
   constructor(
     private locationService: LocationService,
-    private novelCovid: NovelcovidService
-  ) {}
+    private novelCovid: NovelcovidService,
+    public infoDrawer: InfoDrawerService,
+    private layerManager: MapLayerManagerService,
+  ) {
+    this.layerNames = [...Object.values(LayerNames), 'None'];
+    this.treshold = MAP_LAYERS_TRESHOLD_CONFIG;
+  }
 
   ngOnInit(): void {
     this.getLocationInfo();
-    this.getAllInfo();
-    this.getCountriesInfo();
+    this.generalInfo$ = this.novelCovid.getAllInfo().pipe(this.logAndCatch());
+    this.countriesInfo$ = this.novelCovid
+      .getCountriesInfo()
+      .pipe(this.logAndCatch());
+
+    // Calculations
+    this.countriesInfo$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((info) => this.calculateStats(info));
   }
 
-  getLocationInfo(){
-    this.locationService.getLocationWithIP()
-    .subscribe(
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
+  }
+
+  getLocationInfo() {
+    this.locationService.getLocationWithIP().subscribe(
       (res: any) => {
-        //console.log(res);
         this.getSpecificCountryInfo(res.country_name);
       },
       (err: any) => {
@@ -43,83 +84,73 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  findMe(){
-    if (navigator.geolocation) {
-      console.log("🗺️ yep, we can find u! 😃");
-      navigator.geolocation.getCurrentPosition(this.showPosition);
-    } else {
-      console.log("Can't find u with navigator.geolocation 😞");
+  getSpecificCountryInfo(country: string) {
+    if (country === 'United States') {
+      country = 'USA';
+    } else if (country === 'United Kingdom') {
+      country = 'UK';
     }
+    this.currentCountry$ = this.novelCovid.getSpecificCountryInfo(country);
   }
 
-  showPosition(position) {
-    console.log(position.coords);
+  calculateStats(info: CountryInfo[]) {
+    const caseCalculations = {
+      totalCriticalCases: 0,
+      todayCases: 0,
+      todayDeaths: 0,
+    };
+    info.reduce<typeof caseCalculations>(
+      ({ totalCriticalCases, todayCases, todayDeaths }, curr) => ({
+        todayDeaths: todayDeaths + curr.todayDeaths,
+        todayCases: todayCases + curr.todayCases,
+        totalCriticalCases: totalCriticalCases + curr.critical,
+      }),
+      caseCalculations,
+    );
+    this.homeSummary$.next(caseCalculations);
   }
 
-  trackMe() {
-    if (navigator.geolocation) {
-      console.log("🗺️ yep, we can track u! 😃");
-      this.isTracking = true;
-      navigator.geolocation.watchPosition(this.showPosition);
-    } else {
-      alert("Can't track u with navigator.geolocation 😞");
+  onLayerSelected(name: LayerNames | 'None') {
+    if (name === 'None') {
+      return this.currentLayer$.next(null);
     }
+
+    this.layerManager
+      .getMapLayer$(name)
+      .subscribe((layer) => this.currentLayer$.next(layer));
   }
 
-  getAllInfo(){
-    this.novelCovid.getAllInfo()
-    .subscribe(
-      (res) => {
-        //console.log(res)
-        this.generalInfo = res;
-        console.log(this.generalInfo);
-      },
-      (err) => {
-        console.log(err);
-      },
+  onCountryClicked({ iso3 }: { iso3: string }) {
+    this.novelCovid
+      .getSpecificCountryInfo(iso3)
+      .subscribe((c) => this.selectedCountry$.next(c));
+  }
+
+  get enableSelection$() {
+    return this.layerManager.isReady$;
+  }
+
+  get legendTreshold() {
+    return Object.entries(this.treshold).map(([k, { level, alpha }]) => ({
+      label: k,
+      level,
+      alpha,
+    }));
+  }
+
+  get activeLayerName$() {
+    return this.currentLayer$.pipe(
+      map(({ label, color }) => ({ label, color })),
     );
   }
 
-  getCountriesInfo(){
-    this.novelCovid.getCountriesInfo()
-    .subscribe(
-      (res) => {
-        //console.log(res)
-        this.CountriesInfo = res;
-        console.log(this.CountriesInfo);
-        this.calculateStats();
-      },
-      (err) => {
+  private logAndCatch() {
+    return pipe(
+      tap((info: any) => console.log(info)),
+      catchError((err) => {
         console.log(err);
-      },
+        return EMPTY;
+      }),
     );
   }
-
-  getSpecificCountryInfo(country: string){
-    if(country == 'United States'){country = 'USA';}
-    else if(country == 'United Kingdom'){country = 'UK';}
-    this.novelCovid.getSpecificCountryInfo(country)
-    .subscribe(
-      (res) => {
-        //console.log(res)
-        this.currentCountry = res;
-        console.log(this.currentCountry);
-      },
-      (err) => {
-        console.log(err);
-      },
-    );
-  }
-
-  calculateStats(){
-    this.totalCriticalCases = 0;
-    this.todayCases = 0;
-    this.todayDeaths = 0;
-    for(let i = 0; i < this.CountriesInfo.length; i++){
-      this.totalCriticalCases = this.totalCriticalCases + this.CountriesInfo[i].critical;
-      this.todayCases = this.todayCases + this.CountriesInfo[i].todayCases;
-      this.todayDeaths = this.todayDeaths + this.CountriesInfo[i].todayDeaths;
-    }
-  }
-
 }

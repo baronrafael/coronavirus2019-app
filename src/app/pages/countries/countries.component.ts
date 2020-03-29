@@ -1,25 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { NovelcovidService } from 'src/app/core/services/novelcovid.service';
+import { CountryInfo } from '@core/models';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-countries',
   templateUrl: './countries.component.html',
-  styleUrls: ['./countries.component.scss']
+  styleUrls: ['./countries.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CountriesComponent implements OnInit {
+  countryInfo: BehaviorSubject<CountryInfo[]> = new BehaviorSubject<
+    CountryInfo[]
+  >([]);
+  filteredCountries: BehaviorSubject<CountryInfo[]> = new BehaviorSubject<
+    CountryInfo[]
+  >([]);
 
-  constructor(
-    private novelCovid: NovelcovidService
-  ) { }
+  // tslint:disable-next-line:variable-name
+  _listFilter = '';
+
+  constructor(private novelCovid: NovelcovidService) {}
 
   ngOnInit(): void {
     this.getCountriesInfo();
   }
-
-  CountriesInfo: any;
-  filteredCountries: any[] = [];
-
-  _listFilter = '';
 
   get listFilter(): string {
     return this._listFilter;
@@ -27,29 +32,32 @@ export class CountriesComponent implements OnInit {
 
   set listFilter(value: string) {
     this._listFilter = value;
-    this.filteredCountries = this.listFilter ? this.doFilter(this.listFilter) : this.CountriesInfo;
+    this.filteredCountries.next(
+      this.listFilter
+        ? this.doFilter(this.listFilter)
+        : this.countryInfo.getValue(),
+    );
   }
 
   doFilter(filterBy: string): any[] {
     filterBy = filterBy.toLocaleLowerCase();
-    return this.CountriesInfo.filter((country: any) =>
-    country.country.toLocaleLowerCase().indexOf(filterBy) !== -1);
+    return this.countryInfo
+      .getValue()
+      .filter(
+        (country: CountryInfo) =>
+          country.country.toLocaleLowerCase().indexOf(filterBy) !== -1,
+      );
   }
 
-  getCountriesInfo(){
-    this.novelCovid.getCountriesInfo()
-    .subscribe(
+  getCountriesInfo() {
+    this.novelCovid.getCountriesInfo().subscribe(
       (res) => {
-        //console.log(res)
-        this.CountriesInfo = res;
-        console.log(this.CountriesInfo);
-        this.filteredCountries = this.CountriesInfo;
-        this.listFilter = '';
+        this.countryInfo.next(res);
+        this.filteredCountries.next(res);
       },
       (err) => {
         console.log(err);
       },
     );
   }
-
 }

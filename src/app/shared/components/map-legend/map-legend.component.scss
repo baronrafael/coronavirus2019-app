@@ -1,0 +1,43 @@
+@import 'src/styles';
+
+.legend-color-square {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  display: inline-block;
+  align-self: flex-start;
+  box-shadow: $box-shadow;
+  animation: pulsate 2s infinite;
+  transform: scale(1);
+}
+
+.treshold-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-evenly;
+}
+
+.treshold-color {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  margin-right: 0.75rem;
+  box-shadow: $box-shadow;
+  animation: pulsate 2s infinite;
+  transform: scale(1);
+}
+
+.treshold-info {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.title {
+  letter-spacing: 5px !important;
+  font-weight: 100 !important;
+  margin-bottom: 1.5rem !important;
+}
+
+p {
+  font-weight: 100 !important;
+}
