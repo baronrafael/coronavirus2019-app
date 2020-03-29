@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { InfoDrawerService } from '@shared/services';
 
 @Component({
   selector: 'app-root',
@@ -8,4 +9,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'coronavirus2019-app';
+
+  constructor(public infoDrawer: InfoDrawerService) {}
 }

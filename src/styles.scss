@@ -67,6 +67,17 @@ body {
   text-align: right !important;
 }
 
+.title {
+  letter-spacing: 5px !important;
+  font-size: 1.5rem !important;
+  font-weight: 100 !important;
+}
+
+.icon-30 {
+  width: 2rem;
+  height: 2rem;
+}
+
 $box-shadow: -5px 10px 10px 1px rgba(0, 0, 0, 0.5);
 
 @keyframes pulsate {
