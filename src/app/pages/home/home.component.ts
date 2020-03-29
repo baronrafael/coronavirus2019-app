@@ -39,6 +39,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       totalCriticalCases: 0,
     },
   );
+  selectedCountry$ = new Subject<CountryInfo>();
+
+  // Map data
   currentLayer$ = new BehaviorSubject<MapInfoLayer>(null);
   layerNames: string[];
   treshold: TresholdConfig;
@@ -115,6 +118,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.layerManager
       .getMapLayer$(name)
       .subscribe((layer) => this.currentLayer$.next(layer));
+  }
+
+  onCountryClicked({ iso3 }: { iso3: string }) {
+    this.novelCovid
+      .getSpecificCountryInfo(iso3)
+      .subscribe((c) => this.selectedCountry$.next(c));
   }
 
   get enableSelection$() {

@@ -14,6 +14,7 @@ import { ISO3166ConverterService } from '@shared/services/iso-3166-converter.ser
 import { LayerControllerComponent } from './components/layer-controller/layer-controller.component';
 import { MapLegendComponent } from './components/map-legend/map-legend.component';
 import { CountryCardComponent } from './components/country-card/country-card.component';
+import { CountryPopupComponent } from './components/map-component/country-popup/country-popup.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { CountryCardComponent } from './components/country-card/country-card.com
     LayerControllerComponent,
     CountryCardComponent,
     MapLegendComponent,
+    CountryPopupComponent,
   ],
   imports: [
     CommonModule,

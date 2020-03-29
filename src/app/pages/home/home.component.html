@@ -13,7 +13,11 @@
     >
     </app-general-info>
   </mat-sidenav>
-  <app-map [activeLayer]="currentLayer$ | async"></app-map>
+  <app-map
+    [activeLayer]="currentLayer$ | async"
+    [countryInfo]="selectedCountry$ | async"
+    (countryClicked)="onCountryClicked($event)"
+  ></app-map>
   <app-layer-controller
     [names]="layerNames"
     [disabled]="!(enableSelection$ | async)"

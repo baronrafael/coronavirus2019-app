@@ -14,6 +14,7 @@
     }"
     (mouseMove)="onMouseHover($event)"
     (mouseLeave)="onMouseLeave()"
+    (click)="onCountryClick($event)"
   ></mgl-layer>
   <mgl-layer
     id="countries-fill-hover"
@@ -43,6 +44,11 @@
     [filter]="countriesLabel"
   >
   </mgl-layer>
+  <app-country-popup
+    *ngIf="(countryWithPosition$ | async).country"
+    [countryInfo]="countryWithPosition$ | async"
+  >
+  </app-country-popup>
   <mgl-marker
     *ngIf="lngLat"
     [lngLat]="lngLat"

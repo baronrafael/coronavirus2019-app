@@ -1,16 +1,16 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
-  OnChanges,
   OnInit,
-  SimpleChanges,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { environment } from '@environments/environment';
 import { MapComponent as MapGLComponent } from 'ngx-mapbox-gl';
-import { Map, MapboxGeoJSONFeature, Style } from 'mapbox-gl';
-import { MapInfoLayer } from '@core/models';
+import { LngLatLike, Map, MapboxGeoJSONFeature, Style } from 'mapbox-gl';
+import { CountryInfo, MapInfoLayer } from '@core/models';
 import flatten from 'lodash.flatten';
 import { BehaviorSubject } from 'rxjs';
 
@@ -20,9 +20,14 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./map.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MapComponent implements OnInit, OnChanges {
+export class MapComponent implements OnInit {
   private position: Position;
   private map: Map;
+
+  // tslint:disable-next-line
+  private _activeLayer: MapInfoLayer;
+  // tslint:disable-next-line
+  private _selectedCountry: CountryInfo;
 
   // The following properties are Mapbox Specific, for more information
   // check out their documentation on layouts, painting and styles
@@ -110,10 +115,13 @@ export class MapComponent implements OnInit, OnChanges {
   hoverFilter$ = new BehaviorSubject<(string | string[] | number | number[])[]>(
     this.originalHoverFilter,
   );
+  countryWithPosition$ = new BehaviorSubject<
+    Partial<{ country: CountryInfo; position: LngLatLike }>
+  >({});
 
   @ViewChild(MapComponent) mapComponent!: MapGLComponent;
 
-  @Input() activeLayer: MapInfoLayer;
+  @Output() countryClicked = new EventEmitter<{ iso3: string }>();
 
   constructor() {}
 
@@ -125,14 +133,6 @@ export class MapComponent implements OnInit, OnChanges {
       });
     } else {
       console.log("Can't find u with navigator.geolocation 😞");
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.activeLayer.currentValue && this.map) {
-      this.paintFeatures();
-    } else if (!changes.activeLayer.currentValue && this.map) {
-      this.removeFeaturePaint();
     }
   }
 
@@ -162,6 +162,51 @@ export class MapComponent implements OnInit, OnChanges {
 
   onMouseLeave() {
     this.hoverFilter$.next(this.originalHoverFilter);
+  }
+
+  onCountryClick(mouseEvent: {
+    features: MapboxGeoJSONFeature[];
+    lngLat: LngLatLike;
+  }) {
+    if (!this.activeLayer) {
+      return;
+    }
+    const {
+      lngLat,
+      features: [country],
+    } = mouseEvent;
+    this.countryWithPosition$.next({ position: lngLat });
+    this.countryClicked.emit({ iso3: country.properties.A3 });
+  }
+
+  @Input() set activeLayer(layer: MapInfoLayer) {
+    this._activeLayer = layer;
+
+    if (layer && this.map) {
+      this.paintFeatures();
+    } else if (!layer && this.map) {
+      this.removeFeaturePaint();
+    }
+  }
+
+  get activeLayer() {
+    return this._activeLayer;
+  }
+
+  @Input() set countryInfo(countryInfo: CountryInfo) {
+    this._selectedCountry = countryInfo;
+    if (countryInfo && this.countryWithPosition$.getValue().position) {
+      this.countryWithPosition$.next({
+        ...this.countryWithPosition$.getValue(),
+        country: countryInfo,
+      });
+    } else {
+      this.countryWithPosition$.next({});
+    }
+  }
+
+  get countryInfo() {
+    return this._selectedCountry;
   }
 
   get lngLat() {

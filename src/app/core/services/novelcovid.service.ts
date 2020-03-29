@@ -51,6 +51,6 @@ export class NovelcovidService {
   }
 
   getSpecificCountryInfo(country: string) {
-    return this.http.get<CountryInfo>(this.getCountriesInfoUrl + '/' + country);
+    return this.http.get<CountryInfo>(`${this.getCountriesInfoUrl}/${country}`);
   }
 }

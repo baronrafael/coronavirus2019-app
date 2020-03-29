@@ -1,0 +1,7 @@
+::ng-deep .popup {
+  max-width: 100% !important;
+
+  & > * {
+    padding: 0.5rem !important;
+  }
+}
