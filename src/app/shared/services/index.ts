@@ -1,1 +1,1 @@
-export * from '@core/services/info-drawer.service';
+export * from './map-layer-manager.service';

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { InfoDrawerService } from '@shared/services';
 import { Router } from '@angular/router';
+
+import { InfoDrawerService } from '@core/services';
 
 @Component({
   selector: 'app-layout',

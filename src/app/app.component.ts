@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { InfoDrawerService } from '@shared/services';
 
 @Component({
   selector: 'app-root',
