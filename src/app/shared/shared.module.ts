@@ -12,9 +12,15 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { MapLayerManagerService } from '@shared/services/map-layer-manager.service';
 import { ISO3166ConverterService } from '@shared/services/iso-3166-converter.service';
 import { LayerControllerComponent } from './components/layer-controller/layer-controller.component';
+import { CountryCardComponent } from './components/country-card/country-card.component';
 
 @NgModule({
-  declarations: [MapComponent, GeneralInfoComponent, LayerControllerComponent],
+  declarations: [
+    MapComponent,
+    GeneralInfoComponent,
+    LayerControllerComponent,
+    CountryCardComponent,
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -33,6 +39,7 @@ import { LayerControllerComponent } from './components/layer-controller/layer-co
     MapComponent,
     GeneralInfoComponent,
     LayerControllerComponent,
+    CountryCardComponent,
   ],
   providers: [MapLayerManagerService, ISO3166ConverterService],
 })

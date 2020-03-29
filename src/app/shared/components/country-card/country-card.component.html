@@ -1,0 +1,43 @@
+<mat-card class="general-card text-right">
+  <h2 class="card-title text-black text-center">
+    <strong>{{ country.country }}</strong>
+  </h2>
+  <table>
+    <tr>
+      <td>
+        <strong>{{ country.cases }}</strong>
+      </td>
+      <td>Total Cases</td>
+    </tr>
+    <tr>
+      <td>
+        <strong>{{ country.todayCases }}</strong>
+      </td>
+      <td>Today Cases</td>
+    </tr>
+    <tr>
+      <td class="text-orange">
+        <strong>{{ country.critical }}</strong>
+      </td>
+      <td>Critical Cases</td>
+    </tr>
+    <tr>
+      <td class="text-red">
+        <strong>{{ country.deaths }}</strong>
+      </td>
+      <td>Total Deaths</td>
+    </tr>
+    <tr>
+      <td class="text-red">
+        <strong>{{ country.todayDeaths }}</strong>
+      </td>
+      <td>Today Deaths</td>
+    </tr>
+    <tr>
+      <td class="text-green">
+        <strong>{{ country.recovered }}</strong>
+      </td>
+      <td>Total Recovered</td>
+    </tr>
+  </table>
+</mat-card>
