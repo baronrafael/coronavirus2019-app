@@ -1,0 +1,37 @@
+@import '../../../../theme';
+@import '../../../../styles';
+
+.main-content {
+  background-color: whitesmoke;
+  width: 100%;
+}
+
+.sidenav {
+  padding: 1.2rem;
+  height: 100%;
+}
+
+.sidenav-title {
+  font-size: 1.2rem;
+}
+
+.sidenav-btn {
+  text-align: left;
+  font-size: 1rem;
+}
+
+.heart {
+  color: red;
+}
+
+:host ::ng-deep.mat-drawer-inner-container {
+  display: contents;
+}
+
+.info {
+  & > * {
+    animation: pulsate 2s infinite;
+    transform: scale(1);
+  }
+  color: red;
+}

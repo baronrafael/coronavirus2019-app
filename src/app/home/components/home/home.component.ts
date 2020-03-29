@@ -16,7 +16,7 @@ import {
 } from '@core/models';
 import { BehaviorSubject, EMPTY, Observable, pipe, Subject } from 'rxjs';
 import { catchError, map, takeUntil, tap } from 'rxjs/operators';
-import { InfoDrawerService } from '@shared/services/info-drawer.service';
+import { InfoDrawerService } from '@core/services/info-drawer.service';
 import { MapLayerManagerService } from '@shared/services/map-layer-manager.service';
 import { MAP_LAYERS_TRESHOLD_CONFIG } from '@shared/config';
 

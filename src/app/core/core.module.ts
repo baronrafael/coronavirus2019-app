@@ -15,6 +15,7 @@ import { environment } from '@environments/environment';
 import { ApiService } from '@core/services';
 
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
+import { InfoDrawerService } from '@core/services/info-drawer.service';
 
 @NgModule({
   declarations: [],
@@ -26,6 +27,7 @@ export class CoreModule {
     return {
       ngModule: CoreModule,
       providers: [
+        InfoDrawerService,
         {
           provide: HTTP_INTERCEPTORS,
           useClass: MapboxApiKeyInterceptor,
