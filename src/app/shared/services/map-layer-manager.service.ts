@@ -15,7 +15,6 @@ import {
   LAYER_COLORS,
   MAP_LAYERS_TRESHOLD_CONFIG,
 } from '@shared/config/layers-config';
-import { ISO3166ConverterService } from '../services/iso-3166-converter.service';
 
 @Injectable()
 export class MapLayerManagerService {
@@ -34,10 +33,7 @@ export class MapLayerManagerService {
     false,
   );
 
-  constructor(
-    private novelcovidService: NovelcovidService,
-    iso3166: ISO3166ConverterService,
-  ) {
+  constructor(private novelcovidService: NovelcovidService) {
     this.refresh$ = timer(this.CACHE_TIME);
     this.countriesInfo$ = this.novelcovidService.getCountriesInfo().pipe(
       shareReplay(),
@@ -47,7 +43,6 @@ export class MapLayerManagerService {
         countries.map((country) => {
           const {
             countryInfo: { iso3 },
-            country: name,
             deaths,
             recovered,
             critical,
@@ -61,13 +56,9 @@ export class MapLayerManagerService {
             // API is not consistent, some countries already had an ISO 3166-3
             // code as name, so the leaved it that way and did not add info
             // in the countryInfo key
-            country: iso3166.isISOAlphaCode(name, '3') ? name : iso3,
+            country: iso3,
           } as LayerCountryInfo;
         }),
-      ),
-      // Filter out places that are not countries (like the diamond princess)
-      map((countries) =>
-        countries.filter(({ country }) => iso3166.checkValidity(country)),
       ),
     );
 
