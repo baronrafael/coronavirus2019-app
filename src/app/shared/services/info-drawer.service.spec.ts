@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { InfoDrawerService } from './info-drawer.service';
+import { InfoDrawerService } from '@core/services/info-drawer.service';
 
 describe('InfoDrawerService', () => {
   let service: InfoDrawerService;

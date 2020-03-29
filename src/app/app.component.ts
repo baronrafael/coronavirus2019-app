@@ -10,5 +10,5 @@ import { InfoDrawerService } from '@shared/services';
 export class AppComponent {
   title = 'coronavirus2019-app';
 
-  constructor(public infoDrawer: InfoDrawerService) {}
+  constructor() {}
 }

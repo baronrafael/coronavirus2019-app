@@ -1,1 +1,1 @@
-export * from './info-drawer.service';
+export * from '@core/services/info-drawer.service';
