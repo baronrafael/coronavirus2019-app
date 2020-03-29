@@ -1,4 +1,7 @@
-<mat-card class="general-card text-right">
+<mat-card
+  class="general-card text-right"
+  [ngStyle]="{ 'box-shadow': noBoxShadow ? 'none' : '' }"
+>
   <h2 class="card-title text-black text-center">
     <strong>{{ country.country }}</strong>
   </h2>

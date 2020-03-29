@@ -1,0 +1,39 @@
+<mat-card
+  *ngIf="layerColor && thresholds"
+  fxLayout="column"
+  fxLayoutAlign="center space-around"
+>
+  <mat-card-header fxLayout fxLayoutAlign="center space-around">
+    <span
+      [style]="{ 'background-color': layerColor.color }"
+      class="legend-color-square"
+      mat-card-avatar
+    ></span>
+    <mat-card-title class="title">{{ layerColor.label }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content fxLayoutAlign="space-evenly flex-start" fxLayout="column">
+    <blockquote
+      *ngFor="let treshold of thresholds; let isLast = last"
+      class="treshold-item"
+    >
+      <span
+        [style]="{
+          'background-color': layerColor.color,
+          opacity: treshold.alpha
+        }"
+        class="treshold-color"
+      ></span>
+      <p style="margin: auto;" *ngIf="!isLast; else finalElement">
+        <strong>{{ treshold.label }}:</strong> {{ ' ' }}
+        {{ treshold.level[0] }} -
+        {{ treshold.level[1] }}
+      </p>
+      <ng-template #finalElement>
+        <p>
+          <strong>{{ treshold.label }}:</strong> {{ ' ' }} >
+          {{ treshold.level[0] }}
+        </p>
+      </ng-template>
+    </blockquote>
+  </mat-card-content>
+</mat-card>

@@ -12,11 +12,13 @@ import {
   HomeSummary,
   LayerNames,
   MapInfoLayer,
+  TresholdConfig,
 } from '@core/models';
 import { BehaviorSubject, EMPTY, Observable, pipe, Subject } from 'rxjs';
-import { catchError, takeUntil, tap } from 'rxjs/operators';
+import { catchError, map, takeUntil, tap } from 'rxjs/operators';
 import { InfoDrawerService } from '@shared/services/info-drawer.service';
 import { MapLayerManagerService } from '@shared/services/map-layer-manager.service';
+import { MAP_LAYERS_TRESHOLD_CONFIG } from '@shared/config';
 
 @Component({
   selector: 'app-home',
@@ -37,9 +39,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       totalCriticalCases: 0,
     },
   );
-  currentLayer$ = new BehaviorSubject<MapInfoLayer>(null);
+  selectedCountry$ = new Subject<CountryInfo>();
 
+  // Map data
+  currentLayer$ = new BehaviorSubject<MapInfoLayer>(null);
   layerNames: string[];
+  treshold: TresholdConfig;
   constructor(
     private locationService: LocationService,
     private novelCovid: NovelcovidService,
@@ -47,6 +52,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private layerManager: MapLayerManagerService,
   ) {
     this.layerNames = [...Object.values(LayerNames), 'None'];
+    this.treshold = MAP_LAYERS_TRESHOLD_CONFIG;
   }
 
   ngOnInit(): void {
@@ -114,8 +120,28 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe((layer) => this.currentLayer$.next(layer));
   }
 
+  onCountryClicked({ iso3 }: { iso3: string }) {
+    this.novelCovid
+      .getSpecificCountryInfo(iso3)
+      .subscribe((c) => this.selectedCountry$.next(c));
+  }
+
   get enableSelection$() {
     return this.layerManager.isReady$;
+  }
+
+  get legendTreshold() {
+    return Object.entries(this.treshold).map(([k, { level, alpha }]) => ({
+      label: k,
+      level,
+      alpha,
+    }));
+  }
+
+  get activeLayerName$() {
+    return this.currentLayer$.pipe(
+      map(({ label, color }) => ({ label, color })),
+    );
   }
 
   private logAndCatch() {

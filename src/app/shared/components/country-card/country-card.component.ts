@@ -8,6 +8,7 @@ import { CountryInfo } from '@core/models';
 })
 export class CountryCardComponent implements OnInit {
   @Input() country: Readonly<CountryInfo>;
+  @Input() noBoxShadow = false;
 
   constructor() {}
 

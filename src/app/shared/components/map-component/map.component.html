@@ -1,9 +1,54 @@
-<mgl-map
-  [style]="style"
-  [zoom]="[zoom]"
-  (load)="bindMap($event)"
-  (render)="storeCountryFeatures()"
->
+<mgl-map [style]="style" [zoom]="[zoom]" (load)="bindMap($event)">
+  <mgl-geojson-source
+    [data]="data"
+    id="countries"
+    [generateId]="true"
+  ></mgl-geojson-source>
+  <mgl-layer
+    id="countries-fill"
+    type="fill"
+    source="countries"
+    [paint]="{
+      'fill-color': fillColor,
+      'fill-opacity': opacityLevel
+    }"
+    (mouseMove)="onMouseHover($event)"
+    (mouseLeave)="onMouseLeave()"
+    (click)="onCountryClick($event)"
+  ></mgl-layer>
+  <mgl-layer
+    id="countries-fill-hover"
+    type="fill"
+    source="countries"
+    [paint]="{
+      'fill-color': hoverColor,
+      'fill-opacity': hoverFilter$ | async,
+      'fill-outline-color': outlineColor
+    }"
+  ></mgl-layer>
+  <mgl-layer
+    id="admin"
+    source="admin"
+    sourceLayer="admin"
+    type="line"
+    [paint]="countriesBorderPaint"
+  >
+  </mgl-layer>
+  <mgl-layer
+    id="labels"
+    source="admin"
+    sourceLayer="place_label"
+    type="symbol"
+    [layout]="labelsLayout"
+    [paint]="labelsPaint"
+    [filter]="countriesLabel"
+  >
+  </mgl-layer>
+  <app-country-popup
+    *ngIf="(countryWithPosition$ | async).country"
+    [countryInfo]="countryWithPosition$ | async"
+  >
+  </app-country-popup>
   <mgl-marker
     *ngIf="lngLat"
     [lngLat]="lngLat"
@@ -13,5 +58,4 @@
     <mat-icon color="warn">location_on</mat-icon>
   </mgl-marker>
   <mgl-control mglNavigation></mgl-control>
-  <mgl-control mglGeolocate (geolocate)="geolocate($event)"></mgl-control>
 </mgl-map>

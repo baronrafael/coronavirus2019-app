@@ -12,7 +12,9 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { MapLayerManagerService } from '@shared/services/map-layer-manager.service';
 import { ISO3166ConverterService } from '@shared/services/iso-3166-converter.service';
 import { LayerControllerComponent } from './components/layer-controller/layer-controller.component';
+import { MapLegendComponent } from './components/map-legend/map-legend.component';
 import { CountryCardComponent } from './components/country-card/country-card.component';
+import { CountryPopupComponent } from './components/map-component/country-popup/country-popup.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { CountryCardComponent } from './components/country-card/country-card.com
     GeneralInfoComponent,
     LayerControllerComponent,
     CountryCardComponent,
+    MapLegendComponent,
+    CountryPopupComponent,
   ],
   imports: [
     CommonModule,
@@ -39,6 +43,7 @@ import { CountryCardComponent } from './components/country-card/country-card.com
     MapComponent,
     GeneralInfoComponent,
     LayerControllerComponent,
+    MapLegendComponent,
     CountryCardComponent,
   ],
   providers: [MapLayerManagerService, ISO3166ConverterService],

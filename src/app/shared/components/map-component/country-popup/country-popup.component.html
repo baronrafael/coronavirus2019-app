@@ -1,0 +1,10 @@
+<mgl-popup
+  [lngLat]="countryInfo.position"
+  [closeOnClick]="false"
+  className="popup"
+>
+  <app-country-card
+    [country]="countryInfo.country"
+    [noBoxShadow]="true"
+  ></app-country-card>
+</mgl-popup>

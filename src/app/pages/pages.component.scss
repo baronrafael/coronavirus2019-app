@@ -1,4 +1,5 @@
 @import 'src/theme';
+@import 'src/styles';
 
 .main-content {
   background-color: whitesmoke;
@@ -40,30 +41,8 @@
 
 .info {
   & > * {
-    animation: pulse 2s infinite;
+    animation: pulsate 2s infinite;
     transform: scale(1);
   }
   color: red;
-}
-
-@keyframes pulsate {
-  0% {
-    transform: scale(1);
-  }
-
-  25% {
-    transform: scale(1.25);
-  }
-
-  50% {
-    transform: scale(1.5);
-  }
-
-  75% {
-    transform: scale(1.25);
-  }
-
-  100% {
-    transform: scale(1);
-  }
 }
