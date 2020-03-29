@@ -7,12 +7,15 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { environment } from '@environments/environment';
+import { BehaviorSubject } from 'rxjs';
+
 import { MapComponent as MapGLComponent } from 'ngx-mapbox-gl';
 import { LngLatLike, Map, MapboxGeoJSONFeature, Style } from 'mapbox-gl';
+
 import { CountryInfo, MapInfoLayer } from '@core/models';
+import { environment } from '@environments/environment';
+
 import flatten from 'lodash.flatten';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-map',

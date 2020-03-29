@@ -2,7 +2,13 @@
   class="general-card text-right"
   [ngStyle]="{ 'box-shadow': noBoxShadow ? 'none' : '' }"
 >
-  <h2 class="card-title text-black text-center">
+  <h2
+    class="card-title text-black text-center"
+    fxLayout
+    fxLayoutAlign="space-evenly center"
+  >
+    <img [src]="country.countryInfo.flag" />
+
     <strong>{{ country.country }}</strong>
   </h2>
   <table>
