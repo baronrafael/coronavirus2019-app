@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { NovelcovidService } from 'src/app/core/services/novelcovid.service';
+import { NovelcovidService } from '@core/services/novelcovid.service';
 import { CountryInfo } from '@core/models';
 import { BehaviorSubject } from 'rxjs';
 
