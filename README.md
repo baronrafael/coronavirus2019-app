@@ -8,6 +8,8 @@ A SPA made with Angular 9 to be aware of the number of cases and other informati
 - [Flex Layout](https://github.com/angular/flex-layout)
 - [Netlify](https://www.netlify.com/)
 - [NovelCOVID API](https://github.com/NovelCOVID/API)
+- [Mapbox](https://www.mapbox.com/)
+- [GEO-JSON Countries](https://github.com/bsrweb/geo-json-countries-mapbox)
 
 There's a live demo in: https://coronavirus2019.netlify.com/
 
