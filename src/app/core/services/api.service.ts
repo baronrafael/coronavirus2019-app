@@ -16,7 +16,7 @@ export class ApiService {
 
   public get<T>(
     url: string,
-    option?: RequestOptions & { observe: 'response' },
+    option?: RequestOptions,
   ): Observable<HttpResponse<T>>;
 
   public get(
@@ -38,7 +38,7 @@ export class ApiService {
 
   public get(
     url: string,
-    option?: RequestOptions & { observe?: 'body' | 'events' | 'response' } & {
+    option?: RequestOptions & { observe?: 'body' | 'events' } & {
       responseType?: 'blob' | 'arraybuffer';
     },
   ): Observable<any> {
@@ -79,7 +79,7 @@ export class ApiService {
   public post<T>(
     url: string,
     body: any,
-    options?: RequestOptions & { observe?: 'body' | 'events' | 'response' },
+    options?: RequestOptions & { observe?: 'body' | 'events' },
     showValidationErrorMessage = true,
   ): Observable<any> {
     return this.http.post<T>(

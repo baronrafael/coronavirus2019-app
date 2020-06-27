@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { ApiService } from './api.service';
-import { CountryInfo, GeneralInfo } from '@core/models';
+import { CountryHistory, CountryInfo, GeneralInfo } from '@core/models';
 import { NOVEL_COVID_SERVICE } from '@core/models/constants';
 
 @Injectable({
@@ -9,10 +9,12 @@ import { NOVEL_COVID_SERVICE } from '@core/models/constants';
 export class NovelcovidService {
   private readonly getAllInfoUrl;
   private readonly getCountriesInfoUrl;
+  private readonly getCountryHistoricalDataUrl;
 
   constructor(@Inject(NOVEL_COVID_SERVICE) private http: ApiService) {
     this.getAllInfoUrl = 'all';
     this.getCountriesInfoUrl = 'countries';
+    this.getCountryHistoricalDataUrl = 'historical';
   }
 
   getAllInfo() {
@@ -23,7 +25,39 @@ export class NovelcovidService {
     return this.http.get<CountryInfo[]>(this.getCountriesInfoUrl);
   }
 
-  getSpecificCountryInfo(country: string) {
-    return this.http.get<CountryInfo>(`${this.getCountriesInfoUrl}/${country}`);
+  getSpecificCountryInfo(country: string, lastDays: number = 30) {
+    return this.http.get<CountryInfo>(
+      `${this.getCountriesInfoUrl}/${country}`,
+      {
+        observe: 'response',
+        params: {
+          lastdays: String(lastDays),
+        },
+      },
+    );
+  }
+
+  getHistoryForCountry(country: string, lastDays: number = 30) {
+    return this.http.get<CountryHistory>(
+      `${this.getCountryHistoricalDataUrl}/${country}`,
+      {
+        observe: 'response',
+        params: {
+          lastdays: String(lastDays),
+        },
+      },
+    );
+  }
+
+  getHistoryForCountries(country: string[], lastDays: number = 30) {
+    return this.http.get<CountryHistory[]>(
+      `${this.getCountryHistoricalDataUrl}/${country.join(',')}`,
+      {
+        observe: 'response',
+        params: {
+          lastdays: String(lastDays),
+        },
+      },
+    );
   }
 }
