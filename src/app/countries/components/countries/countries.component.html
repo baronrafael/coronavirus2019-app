@@ -10,7 +10,7 @@
   </mat-form-field>
   <div fxLayout="row wrap" fxLayoutAlign="space-evenly" fxLayoutGap="2vh">
     <ng-container *ngFor="let country of filteredCountries | async">
-      <app-country-card [country]="country"></app-country-card>
+      <app-country-card [country]="country" (countrySelected)="router.navigate(['countries', $event])"></app-country-card>
     </ng-container>
   </div>
 </div>

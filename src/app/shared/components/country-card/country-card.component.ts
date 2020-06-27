@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CountryInfo } from '@core/models';
 
 @Component({
@@ -9,6 +9,7 @@ import { CountryInfo } from '@core/models';
 export class CountryCardComponent implements OnInit {
   @Input() country: Readonly<CountryInfo>;
   @Input() noBoxShadow = false;
+  @Output() countrySelected = new EventEmitter<string>();
 
   constructor() {}
 

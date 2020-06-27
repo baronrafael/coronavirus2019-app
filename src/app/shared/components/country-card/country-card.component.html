@@ -6,6 +6,7 @@
     class="card-title text-black text-center"
     fxLayout
     fxLayoutAlign="space-evenly center"
+    (click)="countrySelected.emit(country.countryInfo.iso3)"
   >
     <img [src]="country.countryInfo.flag" />
 

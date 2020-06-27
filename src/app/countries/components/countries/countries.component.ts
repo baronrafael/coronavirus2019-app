@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
+
 import { NovelcovidService } from '@core/services/novelcovid.service';
 import { CountryInfo } from '@core/models';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-countries',
@@ -20,7 +22,7 @@ export class CountriesComponent implements OnInit {
   // tslint:disable-next-line:variable-name
   _listFilter = '';
 
-  constructor(private novelCovid: NovelcovidService) {}
+  constructor(private novelCovid: NovelcovidService, public router: Router) {}
 
   ngOnInit(): void {
     this.getCountriesInfo();
