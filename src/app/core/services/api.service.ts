@@ -12,17 +12,6 @@ export class ApiService {
     this.host = host;
   }
 
-  public delete<T>(
-    url: string,
-    options?: RequestOptions & { observe?: 'response' | 'body' },
-    showValidationErrorMessage = true,
-  ): Observable<T> {
-    return this.http.delete<T>(
-      `${this.host}${this.host ? '/' : ''}${url}`,
-      options,
-    );
-  }
-
   public get<T>(url: string, option?: RequestOptions): Observable<T>;
 
   public get<T>(
@@ -56,18 +45,6 @@ export class ApiService {
     return this.http.get(`${this.host}${this.host ? '/' : ''}${url}`, option);
   }
 
-  public patch<T>(
-    url: string,
-    body: any,
-    options?: RequestOptions & { observe?: 'body' | 'events' | 'response' },
-  ): Observable<T> {
-    return this.http.patch<T>(
-      `${this.host}${this.host ? '/' : ''}${url}`,
-      body,
-      options,
-    );
-  }
-
   public post<T>(
     url: string,
     body: any,
@@ -94,22 +71,18 @@ export class ApiService {
   public post<T>(
     url: string,
     body: any,
+    // tslint:disable-next-line:unified-signatures
     options?: RequestOptions & { observe?: 'body' | 'events' | 'response' },
-    showValidationErrorMessage = true,
-  ): Observable<T> {
-    return this.http.post<T>(
-      `${this.host}${this.host ? '/' : ''}${url}`,
-      body,
-      options,
-    );
-  }
+    showValidationErrorMessage?: boolean,
+  ): Observable<T>;
 
-  public put<T>(
+  public post<T>(
     url: string,
     body: any,
-    options?: RequestOptions & { observe?: 'response' | 'body' },
-  ): Observable<T> {
-    return this.http.put<T>(
+    options?: RequestOptions & { observe?: 'body' | 'events' | 'response' },
+    showValidationErrorMessage = true,
+  ): Observable<any> {
+    return this.http.post<T>(
       `${this.host}${this.host ? '/' : ''}${url}`,
       body,
       options,
