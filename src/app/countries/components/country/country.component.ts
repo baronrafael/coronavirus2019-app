@@ -11,6 +11,7 @@ import { parse } from 'date-fns';
 
 import { CountryHistory } from '@core/models';
 import { NovelcovidService } from '@core/services';
+import { LAYER_COLORS } from '@shared/config';
 
 interface ChartOptions {
   chart: ApexChart;
@@ -18,6 +19,7 @@ interface ChartOptions {
   stroke: ApexStroke;
   xaxis: ApexXAxis;
   series: { name: string; data: { x: number; y: number }[] }[];
+  colors: string[];
 }
 
 @Component({
@@ -32,6 +34,11 @@ export class CountryComponent implements OnInit {
     'cases',
     'recovered',
   ];
+  private seriesColors: Record<keyof CountryHistory['timeline'], string> = {
+    deaths: LAYER_COLORS.Deaths,
+    recovered: LAYER_COLORS.Recoveries,
+    cases: LAYER_COLORS.Infected,
+  };
 
   chartOptions: ChartOptions = {
     chart: {
@@ -45,6 +52,7 @@ export class CountryComponent implements OnInit {
       type: 'datetime',
     },
     series: [],
+    colors: Object.values(this.seriesColors),
   };
 
   constructor(
@@ -74,5 +82,11 @@ export class CountryComponent implements OnInit {
         }),
       ),
     }));
+  }
+
+  private setColors() {
+    this.chartOptions.colors = this.chartOptions.series.map(
+      ({ name }) => this.seriesColors[name],
+    );
   }
 }
