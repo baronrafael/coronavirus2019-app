@@ -6,7 +6,7 @@ export interface RequestOptions {
     | {
         [header: string]: string | string[];
       };
-  observe: 'events' | 'response';
+  observe: 'events' | 'response' | 'body';
   params?:
     | HttpParams
     | {

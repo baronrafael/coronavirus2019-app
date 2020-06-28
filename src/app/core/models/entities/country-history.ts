@@ -1,4 +1,4 @@
-type HistoricalData = Record<string, number>;
+export type HistoricalData = Record<string, number>;
 
 export interface CountryHistory {
   country: string;

@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { CountryHistory, CountryInfo, GeneralInfo } from '@core/models';
 import { NOVEL_COVID_SERVICE } from '@core/models/constants';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +30,7 @@ export class NovelcovidService {
     return this.http.get<CountryInfo>(
       `${this.getCountriesInfoUrl}/${country}`,
       {
-        observe: 'response',
+        observe: 'body',
         params: {
           lastdays: String(lastDays),
         },
@@ -38,15 +39,14 @@ export class NovelcovidService {
   }
 
   getHistoryForCountry(country: string, lastDays: number = 30) {
-    return this.http.get<CountryHistory>(
-      `${this.getCountryHistoricalDataUrl}/${country}`,
-      {
-        observe: 'response',
+    return this.http
+      .get<CountryHistory>(`${this.getCountryHistoricalDataUrl}/${country}`, {
+        observe: 'body',
         params: {
           lastdays: String(lastDays),
         },
-      },
-    );
+      })
+      .pipe(map((res) => (Array.isArray(res) ? res[0] : res)));
   }
 
   getHistoryForCountries(country: string[], lastDays: number = 30) {

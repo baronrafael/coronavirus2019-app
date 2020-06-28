@@ -5,10 +5,16 @@ import { SharedModule } from '@shared/shared.module';
 import { CountriesRoutingModule } from '@app/countries/countries-routing.module';
 import { CountryComponent } from './components/country/country.component';
 import { CountryResolver } from '@app/countries/resolvers/country.resolver';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
   declarations: [CountriesComponent, CountryComponent],
-  imports: [CommonModule, SharedModule, CountriesRoutingModule],
+  imports: [
+    CommonModule,
+    SharedModule,
+    CountriesRoutingModule,
+    NgApexchartsModule,
+  ],
   providers: [CountryResolver],
 })
 export class CountriesModule {}

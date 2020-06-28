@@ -1,1 +1,9 @@
-<p>country works!</p>
+<div class="chart-container">
+  <apx-chart
+    *ngIf="chartOptions"
+    [series]="chartOptions.series"
+    [xaxis]="chartOptions.xaxis"
+    [chart]="chartOptions.chart"
+    [title]="chartOptions.title"
+  ></apx-chart>
+</div>
