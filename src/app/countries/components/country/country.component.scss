@@ -6,4 +6,20 @@
 
 .chart-container {
   height: 100%;
+  display: flex;
+
+  :first-child {
+    flex: 2 0 75%;
+  }
+
+  &-options {
+    flex: 1 1 auto;
+
+    & > div {
+      display: flex;
+      flex-flow: column nowrap;
+      align-self: center;
+      justify-content: flex-start;
+    }
+  }
 }

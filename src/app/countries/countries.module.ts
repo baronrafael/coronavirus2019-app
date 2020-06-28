@@ -6,6 +6,7 @@ import { CountriesRoutingModule } from '@app/countries/countries-routing.module'
 import { CountryComponent } from './components/country/country.component';
 import { CountryResolver } from '@app/countries/resolvers/country.resolver';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [CountriesComponent, CountryComponent],
@@ -14,6 +15,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     SharedModule,
     CountriesRoutingModule,
     NgApexchartsModule,
+    MatTooltipModule,
   ],
   providers: [CountryResolver],
 })

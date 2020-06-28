@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import {
@@ -6,12 +6,15 @@ import {
   ApexStroke,
   ApexTitleSubtitle,
   ApexXAxis,
+  ChartComponent,
 } from 'ng-apexcharts';
-import { parse } from 'date-fns';
+import { addDays, format, formatDistance, parse } from 'date-fns';
 
 import { CountryHistory } from '@core/models';
 import { NovelcovidService } from '@core/services';
 import { LAYER_COLORS } from '@shared/config';
+import { BehaviorSubject } from 'rxjs';
+import { debounceTime, skip, switchMap } from 'rxjs/operators';
 
 interface ChartOptions {
   chart: ApexChart;
@@ -28,7 +31,8 @@ interface ChartOptions {
   styleUrls: ['./country.component.scss'],
 })
 export class CountryComponent implements OnInit {
-  countryHistoricalData: CountryHistory;
+  @ViewChild('chart', { static: false }) chart: ChartComponent;
+
   private activeData: Array<keyof CountryHistory['timeline']> = [
     'deaths',
     'cases',
@@ -40,13 +44,17 @@ export class CountryComponent implements OnInit {
     cases: LAYER_COLORS.Infected,
   };
 
+  daysAgo = new BehaviorSubject(30);
+  countryHistoricalData: CountryHistory;
   chartOptions: ChartOptions = {
     chart: {
       type: 'area',
       stacked: true,
       width: '98%',
     },
-    title: {},
+    title: {
+      text: 'Loading...',
+    },
     stroke: {},
     xaxis: {
       type: 'datetime',
@@ -68,12 +76,37 @@ export class CountryComponent implements OnInit {
     this.chartOptions.stroke = {
       curve: 'smooth',
     };
+    this.chartOptions.series = this.formatSeries();
 
-    this.formatSeries();
+    this.daysAgo
+      .pipe(
+        skip(1),
+        debounceTime(250),
+        switchMap((newDaysAgo) =>
+          this.novelcovidService.getHistoryForCountry(
+            this.countryHistoricalData.country,
+            newDaysAgo,
+          ),
+        ),
+      )
+      .subscribe((newData) => {
+        this.countryHistoricalData = newData;
+        this.chartOptions.series = this.formatSeries();
+        //this.chartOptions.colors = this.setColors();
+        this.chart.updateOptions(this.chartOptions, true, true, true);
+      });
+  }
+
+  get formatDaysAgoDistance() {
+    const firstDate = addDays(new Date(), this.daysAgo.getValue() * -1);
+
+    return `${formatDistance(firstDate, new Date(), {
+      addSuffix: true,
+    })} (from the ${format(firstDate, 'M/d/yy')}, to be precise).`;
   }
 
   private formatSeries() {
-    this.chartOptions.series = this.activeData.map((data) => ({
+    return this.activeData.map((data) => ({
       name: data.replace(data[0], data[0].toUpperCase()), // So stupid that JS doesn't have a method to capitalize words...
       data: Object.entries(this.countryHistoricalData.timeline[data]).map(
         ([date, amount]) => ({
@@ -85,8 +118,6 @@ export class CountryComponent implements OnInit {
   }
 
   private setColors() {
-    this.chartOptions.colors = this.chartOptions.series.map(
-      ({ name }) => this.seriesColors[name],
-    );
+    return this.chartOptions.series.map(({ name }) => this.seriesColors[name]);
   }
 }
