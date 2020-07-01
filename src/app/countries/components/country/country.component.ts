@@ -104,7 +104,7 @@ export class CountryComponent implements OnInit, AfterViewInit {
 
   isOptionChecked(optionName: string) {
     return this.chartOptions.data.datasets
-      .map(({ label }) => (name as string).toLowerCase())
+      .map(({ label }) => (label as string).toLowerCase())
       .includes(optionName);
   }
 
