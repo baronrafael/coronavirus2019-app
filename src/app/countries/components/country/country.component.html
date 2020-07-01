@@ -1,23 +1,52 @@
 <div class="chart-container">
-  <apx-chart
-    #chart
-    *ngIf="chartOptions"
-    [series]="chartOptions.series"
-    [xaxis]="chartOptions.xaxis"
-    [chart]="chartOptions.chart"
-    [title]="chartOptions.title"
-    [colors]="chartOptions.colors"
-  ></apx-chart>
+  <div class="chart-wrapper">
+    <canvas #chart></canvas>
+  </div>
   <aside class="chart-options">
-    <div>
+    <div class="chart-options__layout">
       <mat-form-field appearance="outline">
         <mat-label>Days ago</mat-label>
-        <input type="number" matInput placeholder="30" min="1" [ngModel]="daysAgo | async" (ngModelChange)="daysAgo.next($event)">
-        <mat-icon [ngStyle]="{cursor: 'pointer'}" matPrefix matTooltip="How may days ago to fetch the data. Minimum 1, default 30."
-                  matTooltipPosition="before">info
+        <input
+          type="number"
+          matInput
+          placeholder="30"
+          min="1"
+          [ngModel]="daysAgo | async"
+          (ngModelChange)="daysAgo.next($event)"
+        />
+        <mat-icon
+          [ngStyle]="{ cursor: 'pointer' }"
+          matPrefix
+          matTooltip="How may days ago to fetch the data. Minimum 1, default 30."
+          matTooltipPosition="before"
+          >info
         </mat-icon>
-        <mat-hint>{{formatDaysAgoDistance}}</mat-hint>
+        <mat-hint>{{ formatDaysAgoDistance }}</mat-hint>
       </mat-form-field>
+
+      <section class="chart-options__layout">
+        <mat-checkbox
+          [checked]="isOptionChecked('cases')"
+          color="primary"
+          (change)="toggleOption('cases')"
+        >
+          Cases
+        </mat-checkbox>
+        <mat-checkbox
+          [checked]="isOptionChecked('deaths')"
+          color="warn"
+          (change)="toggleOption('deaths')"
+        >
+          Deaths
+        </mat-checkbox>
+        <mat-checkbox
+          [checked]="isOptionChecked('recovered')"
+          color="accent"
+          (change)="toggleOption('recovered')"
+        >
+          Recovered
+        </mat-checkbox>
+      </section>
     </div>
   </aside>
 </div>

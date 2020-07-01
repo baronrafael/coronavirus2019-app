@@ -7,19 +7,28 @@
 .chart-container {
   height: 100%;
   display: flex;
+}
 
-  :first-child {
-    flex: 2 0 75%;
-  }
+.chart-wrapper {
+  position: relative;
+  height: 92vh !important;
+  width: 86vw !important;
+  padding-left: 2rem;
+}
 
-  &-options {
-    flex: 1 1 auto;
+.chart-container-options {
+  flex: 1 1 auto;
+  padding-right: 2rem;
+}
 
-    & > div {
-      display: flex;
-      flex-flow: column nowrap;
-      align-self: center;
-      justify-content: flex-start;
-    }
+.chart-options__layout {
+  display: flex;
+  flex-flow: column nowrap;
+  align-self: center;
+  justify-content: flex-start;
+
+  & > section {
+    align-self: flex-start;
+    padding-top: 1rem;
   }
 }
