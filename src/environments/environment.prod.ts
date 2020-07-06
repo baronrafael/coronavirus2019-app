@@ -10,7 +10,7 @@ export const environment = {
       datasets: 'https://api.mapbox.com/datasets/v1',
     },
   },
-  novelCovidUrl: ' https://corona.lmao.ninja',
+  novelCovidUrl: ' https://corona.lmao.ninja/v2',
   mapBackgroundColor: '#f5f5f5',
   mapFillColor: '#000000',
 };
